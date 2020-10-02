@@ -271,28 +271,28 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
             # plt.ylabel('value')
             # plt.show()
 
-            # "------ plot channels after differentiation ------" #only gastrocnemio lateralis
-            # plots= diff_gl.shape[0]
-            # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            # for i in range(plots-1):
-            #     ax = plt.subplot(plots,1,i + 1)
-            #     plt.plot(diff_gl[i,:],color='blue',linewidth=0.5)
-            #     ax.spines['top'].set_visible(False)
-            #     ax.spines['bottom'].set_visible(False)
-            #     ax.spines['left'].set_visible(False)
-            #     ax.spines['right'].set_visible(False)
-            #     plt.xticks([])
-            #     plt.yticks([])  
-            # plt.show()
+            "------ plot channels after differentiation ------" #only gastrocnemio lateralis
+            plots= diff_gl.shape[0]
+            figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+            for i in range(plots-1):
+                ax = plt.subplot(plots,1,i + 1)
+                plt.plot(diff_gl[i,:],color='blue',linewidth=0.5)
+                ax.spines['top'].set_visible(False)
+                ax.spines['bottom'].set_visible(False)
+                ax.spines['left'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                plt.xticks([])
+                plt.yticks([])  
+            plt.show()
 
 
-            # "------- Plot of a single channel versus time after differentiation -----"
-            # figure(num=4, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            # plt.plot(t,diff_gl[22,:],linewidth=0.5)  #plotting only gastrocnemio lateralis
-            # plt.title('single channel of data after differentiation')
-            # plt.xlabel('time')
-            # plt.ylabel('value')
-            # plt.show()
+            "------- Plot of a single channel versus time after differentiation -----"
+            figure(num=4, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+            plt.plot(t,diff_gl[22,:],linewidth=0.5)  #plotting only gastrocnemio lateralis
+            plt.title('single channel of data after differentiation')
+            plt.xlabel('time')
+            plt.ylabel('value')
+            plt.show()
 
 
 
