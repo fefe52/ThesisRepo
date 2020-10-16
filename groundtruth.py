@@ -1,6 +1,7 @@
 "********* KTH THESIS PROJECT FEDERICA ARESU **********"
 
 import numpy as np
+from numpy import array
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
@@ -18,7 +19,13 @@ def Forza(gt,FS,Sensibility,Gain):
 
 "----- Formula Torque -----"
 def Torque(F,MA):
-    TRQ = pd.DataFrame(F.iloc[:]*MA)
+    TRQ_VAL = np.zeros([len(F),1]);
+    TRQ_VAL[:] = F.iloc[:]*MA
+    for i in range(len(F)):
+         z = TRQ_VAL[(i*1024):((i+1)*1024)]; 
+         TRQ[i] = np.sum(abs(z))/len(z);
+         if i == (238):
+               break
     return TRQ
     
 
@@ -28,6 +35,7 @@ allTRQ_PF = [];
 TRQ_PF = 0;
 TRQ_DF= 0;
 
+TRQ = np.zeros(239);   #to let automatic
 os.chdir(r'C:\Users\fedea\Desktop\HDEMG_CSV\F_test05');
 
 for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/F_test05"):
@@ -42,31 +50,18 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/F_test05"):
             FS = 100;
             Sens = 2;
             F = Forza(gt,FS,Sens,Gain)
-            
-            ## CHECK FOR MOMENT ARM LENGTH ##
-            if (name.find("AN15") != -1):
-                MA = 0.2;
-                
-            if (name.find("AN30") != -1):
-                MA = 0.1;
-            
-            if (name.find("AP0") != -1):
-                MA = 0.5;
-                
-            if (name.find("AP10") != -1):
-                MA = 0.4;
-            
-            
+            MA = 10.5;                   #measured value from lab
             
             TRQ = Torque(F,MA)
-            strPF = "_PF_";
-            strDF = "_DF_";
-            if (name.find(strPF) != -1):
-                TRQ_PF = TRQ;
-                allTRQ_PF.append(TRQ_PF)
-            if (name.find(strDF) != -1):
-                TRQ_DF = TRQ;
-                allTRQ_DF.append(TRQ_DF)
+            out_seq = TRQ.reshape((len(TRQ), 1))
+            # strPF = "_PF_";
+            # strDF = "_DF_";
+            # if (name.find(strPF) != -1):
+            #     TRQ_PF = TRQ;
+            #     allTRQ_PF.append(TRQ_PF)
+            # if (name.find(strDF) != -1):
+            #     TRQ_DF = TRQ;
+            #     allTRQ_DF.append(TRQ_DF)
 
             
             

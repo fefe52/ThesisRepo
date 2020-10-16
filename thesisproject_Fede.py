@@ -11,7 +11,7 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth import *
+from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
@@ -56,18 +56,19 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
             sol_channels = len(df_sol.columns);
             
             diff_gl = Differential(df_gl,gl_channels);
-            diff_p = Differential(df_p,p_channels);
-            diff_gm = Differential(df_gm,gm_channels);
-            diff_ta = Differential(df_ta,ta_channels);
-            diff_sol = Differential_sol(df_sol,sol_channels);
+            # diff_p = Differential(df_p,p_channels);
+            # diff_gm = Differential(df_gm,gm_channels);
+            # diff_ta = Differential(df_ta,ta_channels);
+            # diff_sol = Differential_sol(df_sol,sol_channels);
             
             gl_diffchannels = diff_gl.shape[0];
-            p_diffchannels = diff_p.shape[0];
-            gm_diffchannels = diff_gm.shape[0];
-            ta_diffchannels = diff_ta.shape[0];
-            sol_diffchannels = diff_sol.shape[0];
+            # p_diffchannels = diff_p.shape[0];
+            # gm_diffchannels = diff_gm.shape[0];
+            # ta_diffchannels = diff_ta.shape[0];
+            # sol_diffchannels = diff_sol.shape[0];
             
-            
+           
+   
             
             
             
@@ -75,34 +76,15 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
             
             "-------Features-------"
 
-            FTR = np.zeros([4,5]);
             
             
-            #### Gastrocnemium lateralis ####
-            #MAVgl_channels = np.zeros([1,gl_diffchannels]);    #THEY MUST BE LIST
-            # WLgl_channels = np.zeros([1,gl_diffchannels]);
-            # WAMPgl_channels = np.zeros([1,gl_diffchannels]);
+            " Gastrocnemium lateralis "
             # MAV_calc = 0;
-            # WL_calc = 0;
-            # WAMP_calc = 0;
-            #MAVgl_channels = []
-            WLgl_channels = []
-            
+            MAVgl_channels = np.zeros([239,gl_diffchannels])
             for c in range(gl_diffchannels):
-                    #MAVgl_channels.append(fMAV(diff_gl[c,:]));
-                    WLgl_channels.append(fWL(diff_gl[c,:]));
-                    
-            #         WLgl_channels[0,c] = fWL(diff_gl[c,:]);
-            #         WAMPgl_channels[0,c] = fWAMP(diff_gl[c,:],0.1);
-            #         MAV_calc += MAVgl_channels[0,c];
-            #         WL_calc += WLgl_channels[0,c];
-            #         WAMP_calc += WAMPgl_channels[0,c];
-            # MAV_muscle[0] = MAV_calc / gl_diffchannels;
-            # WL_muscle[0] = WL_calc / gl_diffchannels;
-            # WAMP_muscle[0] = WAMP_calc/ gl_diffchannels;
-            # FTR[0,0] = MAV_muscle[0]
-            # FTR[1,0] = WL_muscle[0]
-            # FTR[2,0] = WAMP_muscle[0]
+                     MAVgl_channels[:,c] = (fMAV(diff_gl[c,:])); 
+
+
             
               
             # "------ plot MAV profile ------" #only gastrocnemio lateralis
@@ -121,13 +103,13 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
 
 
 
-            "------- Plot single channel WL profile -----"
-            figure(num=6, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            plt.plot(WLgl_channels[22],linewidth=0.5)  #plotting only gastrocnemio lateralis
-            plt.title('single channel WL profile')
-            plt.xlabel('time')
-            plt.ylabel('WL')
-            plt.show()
+            # "------- Plot single channel WL profile -----"
+            # figure(num=6, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+            # plt.plot(WLgl_channels[22],linewidth=0.5)  #plotting only gastrocnemio lateralis
+            # plt.title('single channel WL profile')
+            # plt.xlabel('time')
+            # plt.ylabel('WL')
+            # plt.show()
 
             # #### Peroneus Longus ####
             # MAVp_channels = np.zeros([1,p_diffchannels]);   
@@ -265,36 +247,38 @@ for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
 
             # "------- Plot a single channel versus time ------"
             # figure(num=2, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            # plt.plot(t,df_gl.iloc[:,0],linewidth=0.5)
+            # plt.plot(t,df_gl.iloc[:,1],linewidth=0.5)
             # plt.title('single channel of original data')
             # plt.xlabel('time')
             # plt.ylabel('value')
             # plt.show()
 
-            "------ plot channels after differentiation ------" #only gastrocnemio lateralis
-            plots= diff_gl.shape[0]
-            figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            for i in range(plots-1):
-                ax = plt.subplot(plots,1,i + 1)
-                plt.plot(diff_gl[i,:],color='blue',linewidth=0.5)
-                ax.spines['top'].set_visible(False)
-                ax.spines['bottom'].set_visible(False)
-                ax.spines['left'].set_visible(False)
-                ax.spines['right'].set_visible(False)
-                plt.xticks([])
-                plt.yticks([])  
-            plt.show()
+            # "------ plot channels after differentiation ------" #only gastrocnemio lateralis
+            # plots= diff_gl.shape[0]
+            # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+            # for i in range(plots-1):
+            #     ax = plt.subplot(plots,1,i + 1)
+            #     plt.plot(diff_gl[i,:],color='blue',linewidth=0.5)
+            #     ax.spines['top'].set_visible(False)
+            #     ax.spines['bottom'].set_visible(False)
+            #     ax.spines['left'].set_visible(False)
+            #     ax.spines['right'].set_visible(False)
+            #     plt.xticks([])
+            #     plt.yticks([])  
+            # plt.show()
 
 
-            "------- Plot of a single channel versus time after differentiation -----"
-            figure(num=4, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
-            plt.plot(t,diff_gl[22,:],linewidth=0.5)  #plotting only gastrocnemio lateralis
-            plt.title('single channel of data after differentiation')
-            plt.xlabel('time')
-            plt.ylabel('value')
-            plt.show()
+          
 
-
+            # "------- Plot of a single channel versus time after differentiation -----"
+            
+            # figure(num=4, figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+        
+            # plt.plot(t,diff_gl[0,:],linewidth=0.5)  #plotting only gastrocnemio lateralis
+            # plt.title('single channel of data CHECK after differentiation')
+            # plt.xlabel('time')
+            # plt.ylabel('value')
+            # plt.show()
 
 
 
