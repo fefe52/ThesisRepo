@@ -40,10 +40,10 @@ TRQ_DF= 0;
 TRQ = np.zeros(239);   #to let automatic
 CWD = os.getcwd()
 subfolders = r'.\data\F_test05'
-finalpath = os.path.join(CWD, subfolders)
-os.chdir(finalpath);
+finalpath_groundtruth = os.path.join(CWD, subfolders)
+os.chdir(finalpath_groundtruth);
 
-for root, dirs, files in os.walk(finalpath):
+for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
             gt = pd.read_csv(name, sep=';' , engine ='python');

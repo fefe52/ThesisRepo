@@ -23,9 +23,9 @@ from keras.callbacks import ModelCheckpoint
 
 import warnings
 
+from thesisproject_Fede import *
 from features import fMAV
 from differentiation import *
-from thesisproject_Fede import *
 from groundtruth import *
 
 
@@ -57,8 +57,6 @@ def split_sequences(sequences, n_steps_in, n_steps_out):
 # convert to [rows, columns] structure
 in_seq = MAVgl_channels;   
 
-
-
 # horizontally stack columns
 dataset = hstack((in_seq, out_seq))
 # choose a number of time steps
@@ -74,50 +72,49 @@ print("X.shape is, and Y.shape is," , X.shape, Y.shape)
 
 # Flatten input and output
 n_input = X.shape[1] * X.shape[2]    
-n_output = Y.shape[1] * Y.shape[2]
 
-
+X = X.reshape((X.shape[0], n_input))
 
 # Split of the data
 train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
 
 
-# # Create the model
-# model = Sequential()
-# model.add(Dense(100, input_shape=n_steps, activation='relu'))
-# model.add(Dense(8, activation = 'relu'))
-# model.add(Dense(1))
+# Create the model
+model = Sequential()
+model.add(Dense(100, activation='relu', input_dim=n_input))
+model.add(Dense(8, activation = 'relu'))
+model.add(Dense(n_steps_out))
 
-# # Configure the model and start training
-# #we use MSE because it is a regression problem
-# model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
-# model.summary()
+# Configure the model and start training
+#we use MSE because it is a regression problem
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
+model.summary()
 
-# # Early stopping
-# es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
+# Early stopping
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
-# # validation_split=0.2 TO USE
-# model_history = model.fit(train_features, train_target, epochs=400, batch_size=1, verbose=1, callbacks=[es], validation_data=(test_features, test_target))
-# # I can select the learning rate through the optimizer
+# validation_split=0.2 TO USE
+model_history = model.fit(train_features, train_target, epochs=400, batch_size=1, verbose=1, callbacks=[es], validation_data=(test_features, test_target))
+# I can select the learning rate through the optimizer
 
-# # Evaluate the model
-# _, train_acc = model.evaluate(train_features, train_target, verbose=0)
-# _, test_acc = model.evaluate(test_features, test_target, verbose=0)
-# print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
+# Evaluate the model
+_, train_acc = model.evaluate(train_features, train_target, verbose=0)
+_, test_acc = model.evaluate(test_features, test_target, verbose=0)
+print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
 
-# # Predictions
-# predictions = model.predict(train_features[:10])
+# Predictions
+predictions = model.predict(train_features[:10])
 
 
-# "--Plots--"
-# # plt.figure(figsize=(30,10))
-# # plt.plot(range(1,401),model_history.history["val_loss"])
-# # plt.plot(range(1,401),model_history.history["loss"])
-# # plt.legend(["Val Mean Sq Error (Val Loss)","Train Mean Sq Error (Train Loss)"])
-# # plt.xlabel("EPOCHS")
-# # plt.ylabel("Mean Sq Error")
-# # plt.xticks(range(1,401))
-# # plt.show()
+"--Plots--"
+# plt.figure(figsize=(30,10))
+# plt.plot(range(1,401),model_history.history["val_loss"])
+# plt.plot(range(1,401),model_history.history["loss"])
+# plt.legend(["Val Mean Sq Error (Val Loss)","Train Mean Sq Error (Train Loss)"])
+# plt.xlabel("EPOCHS")
+# plt.ylabel("Mean Sq Error")
+# plt.xticks(range(1,401))
+# plt.show()
 
 
 
