@@ -16,7 +16,7 @@ from groundtruth import *
 
 "------------IMPORT AND MAIN PART-----------"
 #CWD = os.getcwd()
-subfolders = r'.\data\test05'
+subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
