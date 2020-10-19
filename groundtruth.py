@@ -10,6 +10,8 @@ import time
 from matplotlib.pyplot import figure
 from pathlib import Path
 
+
+
 "----- Formula from Forza -----"
 def Forza(gt,FS,Sensibility,Gain):
     Val = (FS *1000)/(Sensibility * Gain * 5);
@@ -36,10 +38,13 @@ TRQ_PF = 0;
 TRQ_DF= 0;
 
 TRQ = np.zeros(239);   #to let automatic
-os.chdir(r'C:\Users\fedea\Desktop\HDEMG_CSV\F_test05');
+CWD = os.getcwd()
+subfolders = r'.\data\F_test05'
+finalpath = os.path.join(CWD, subfolders)
+os.chdir(finalpath);
 
-for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/F_test05"):
-    for name in files:
+for root, dirs, files in os.walk(finalpath):
+    for name in files:   
         if name.endswith((".csv")):
             gt = pd.read_csv(name, sep=';' , engine ='python');
             gt += np.arange(len(gt.columns))

@@ -15,7 +15,10 @@ from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-os.chdir(r'C:\Users\fedea\Desktop\HDEMG_CSV\test05');
+CWD = os.getcwd()
+subfolders = r'.\data\test05'
+finalpath = os.path.join(CWD, subfolders)
+os.chdir(finalpath);
 
 Fsample = 2048;
 
@@ -28,7 +31,7 @@ allFTR_DF = [];
 
 
 #       the dataframe has the time in x-axis and channels in y-axis         #
-for root, dirs, files in os.walk("C:/Users/fedea/Desktop/HDEMG_CSV/test05"):
+for root, dirs, files in os.walk(finalpath):
     for name in files:
         if name.endswith((".csv")):
             df = pd.read_csv(name, sep=';' , engine ='python');

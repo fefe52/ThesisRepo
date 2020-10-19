@@ -28,7 +28,6 @@ from differentiation import *
 from thesisproject_Fede import *
 from groundtruth import *
 
-os.chdir(r'C:\Users\fedea\Desktop');
 
 
 
@@ -67,21 +66,25 @@ n_steps_in, n_steps_out = 5, 1
 
 
 # convert into input/output
-X, y = split_sequences(dataset, n_steps_in, n_steps_out)
-print(X.shape, y.shape)
+X, Y = split_sequences(dataset, n_steps_in, n_steps_out)
+print("X.shape is, and Y.shape is," , X.shape, Y.shape)
 # summarize the data
-for i in range(len(X)):
-	print(X[i], y[i])
+#for i in range(len(X)):
+#	print(X[i], Y[i])
 
-    
+# Flatten input and output
+n_input = X.shape[1] * X.shape[2]    
+n_output = Y.shape[1] * Y.shape[2]
 
-# # Split of the data
-# train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
+
+
+# Split of the data
+train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
+
 
 # # Create the model
-# input_shape = (20,)
 # model = Sequential()
-# model.add(Dense(16, input_shape=input_shape, activation='relu'))
+# model.add(Dense(100, input_shape=n_steps, activation='relu'))
 # model.add(Dense(8, activation = 'relu'))
 # model.add(Dense(1))
 
