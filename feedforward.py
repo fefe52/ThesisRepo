@@ -10,7 +10,10 @@ import sklearn
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.wrappers.scikit_learn import KerasRegressor
+<<<<<<< HEAD
 
+=======
+>>>>>>> d5aaa2779139a1d731630792dc7f7f31d4df09ef
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold

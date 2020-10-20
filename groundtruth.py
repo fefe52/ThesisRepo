@@ -31,7 +31,6 @@ def Torque(F,MA):
     return TRQ
     
 
-
 allTRQ_DF = [];
 allTRQ_PF = [];
 TRQ_PF = 0;
