@@ -10,10 +10,7 @@ import sklearn
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.wrappers.scikit_learn import KerasRegressor
-<<<<<<< HEAD
 
-=======
->>>>>>> d5aaa2779139a1d731630792dc7f7f31d4df09ef
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
@@ -108,14 +105,15 @@ def main():
 
 
     "--Plots--"
-    # plt.figure(figsize=(30,10))
-    # plt.plot(range(1,401),model_history.history["val_loss"])
-    # plt.plot(range(1,401),model_history.history["loss"])
-    # plt.legend(["Val Mean Sq Error (Val Loss)","Train Mean Sq Error (Train Loss)"])
-    # plt.xlabel("EPOCHS")
-    # plt.ylabel("Mean Sq Error")
-    # plt.xticks(range(1,401))
-    # plt.show()
+    plt.figure(figsize=(30,10))
+    plt.plot(range(1,401),model_history.history["val_loss"])
+    plt.plot(range(1,401),model_history.history["loss"])
+    plt.legend(["Val Mean Sq Error (Val Loss)","Train Mean Sq Error (Train Loss)"])
+    plt.xlabel("EPOCHS")
+    plt.ylabel("Mean Sq Error")
+    plt.xticks(range(1,401))
+    plt.show()
+    plt.savefig('data/Val and train mean sq errors.png')
 
 
 if __name__ == "__main__":
