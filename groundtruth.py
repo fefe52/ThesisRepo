@@ -39,7 +39,7 @@ TRQ_DF= 0;
 
 TRQ = np.zeros(239);   #to let automatic
 CWD = os.getcwd()
-subfolders = r'.\data\F_test05'
+subfolders = r"data/F_test05"
 finalpath_groundtruth = os.path.join(CWD, subfolders)
 os.chdir(finalpath_groundtruth);
 
@@ -59,6 +59,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             TRQ = Torque(F,MA)
             out_seq = TRQ.reshape((len(TRQ), 1))
+            print(out_seq)
             # strPF = "_PF_";
             # strDF = "_DF_";
             # if (name.find(strPF) != -1):
