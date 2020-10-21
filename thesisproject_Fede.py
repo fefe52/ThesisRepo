@@ -83,9 +83,14 @@ for root, dirs, files in os.walk(finalpath):
             
             " Gastrocnemium lateralis "
             # MAV_calc = 0;
-            MAVgl_channels = np.zeros([239,gl_diffchannels])
+            MAVgl_ch = []
+            MAVgl_channels = []
+            #MAVgl_channels = np.zeros([239,gl_diffchannels])
             for c in range(gl_diffchannels):
-                     MAVgl_channels[:,c] = (fMAV(diff_gl[c,:])); 
+                MAVgl_ch.append(fMAV(diff_gl[c,:]));
+                MAVgl_channels.append(MAVgl_ch);
+                MAVgl_ch.clear() 
+            MAVgl_channels = np.array(MAVgl_channels);
 
 
             
