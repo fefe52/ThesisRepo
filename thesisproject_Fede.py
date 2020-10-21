@@ -11,11 +11,11 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth import *
+from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
+#CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -83,13 +83,11 @@ for root, dirs, files in os.walk(finalpath):
             
             " Gastrocnemium lateralis "
             # MAV_calc = 0;
-            MAVgl_ch = []
             MAVgl_channels = []
-            #MAVgl_channels = np.zeros([239,gl_diffchannels])
             for c in range(gl_diffchannels):
-                MAVgl_ch.append(fMAV(diff_gl[c,:]));
-                MAVgl_channels.append(MAVgl_ch[c]);
+                MAVgl_channels.append(fMAV(diff_gl[c,:]))
             MAVgl_channels = np.array(MAVgl_channels);
+            print("MAVgl_channels",MAVgl_channels.shape)
 
 
             
