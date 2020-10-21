@@ -18,14 +18,20 @@ from differentiation import *
 # Mean absolute value function
 def fMAV(y):
     n = len(y);
-    mav = np.zeros(239);
+    #mav = np.zeros(239);
+    mav = []
+    len_window = 1024;
+    count = 0;
     for i in range(n):
-        z = y[(i*1024):((i+1)*1024)]; 
-        mav[i] = np.sum(abs(z))/len(z);
-        if i == (238):
-              break
+        if n in range((i*1024),((i+1)*1024)):
+            break
+        z = y[(i*1024):((i+1)*1024)];
+        count = count + 1;
+        mav.append(np.sum(abs(z))/len(z))
+    mav = np.array(mav);
+    print(mav)
+    print("length",len(mav))
     return mav
-    
  
 # "--------------WL-------------------"
 
