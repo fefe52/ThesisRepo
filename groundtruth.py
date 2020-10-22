@@ -21,13 +21,16 @@ def Forza(gt,FS,Sensibility,Gain):
 
 "----- Formula Torque -----"
 def Torque(F,MA):
+    n = len(F);
+    TRQ = []
     TRQ_VAL = np.zeros([len(F),1]);
     TRQ_VAL[:] = F.iloc[:]*MA
-    for i in range(len(F)):
-         z = TRQ_VAL[(i*1024):((i+1)*1024)]; 
-         TRQ[i] = np.sum(abs(z))/len(z);
-         if i == (238):
-               break
+    for i in range(n):
+        if n in range((i*1024),((i+1)*1024)):
+            break
+        z = TRQ_VAL[(i*1024):((i+1)*1024)]; 
+        TRQ.append(np.sum(abs(z))/len(z))
+    TRQ = np.array(TRQ);
     return TRQ
     
 
@@ -36,7 +39,6 @@ allTRQ_PF = [];
 TRQ_PF = 0;
 TRQ_DF= 0;
 
-TRQ = np.zeros(239);   #to let automatic
 CWD = os.getcwd()
 subfolders = r"data/F_test05"
 finalpath_groundtruth = os.path.join(CWD, subfolders)
@@ -58,7 +60,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             TRQ = Torque(F,MA)
             out_seq = TRQ.reshape((len(TRQ), 1))
-            print(out_seq)
+            print("size of out_seq", len(out_seq))
             # strPF = "_PF_";
             # strDF = "_DF_";
             # if (name.find(strPF) != -1):

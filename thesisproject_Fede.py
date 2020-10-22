@@ -87,6 +87,7 @@ for root, dirs, files in os.walk(finalpath):
             for c in range(gl_diffchannels):
                 MAVgl_channels.append(fMAV(diff_gl[c,:]))
             MAVgl_channels = np.array(MAVgl_channels);
+            MAVgl_channels = np.transpose(MAVgl_channels);
             print("MAVgl_channels",MAVgl_channels.shape)
 
 
