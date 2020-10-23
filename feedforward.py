@@ -136,7 +136,6 @@ def main():
         plt.ylabel('Mean Abs Error')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
-        plt.ylim([2,5])
         plt.legend()
         plt.savefig(CWD + '/figures/Mean abs Error.png')
 
@@ -144,8 +143,7 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
-        plt.plot(hist['epoch'], hist['val_mean_squared_error'],label = 'Val Error')
-        plt.ylim([10,40])
+        plt.plot(hist['epoch'], hist['val_mean_squared_error'])
         plt.legend()
         plt.savefig(CWD + '/figures/Mean Square Error.png')
         plt.show()
