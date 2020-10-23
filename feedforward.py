@@ -75,30 +75,42 @@ def main():
 
     # Split of the data
     train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
-
+    
+    # Normalize data
+    #train_features = train_features.describe()
+    #train_features = train_features.transpose()
+    #print("train_features characteristics",train_features)
 
     # Create the model
     model = Sequential()
     model.add(Dense(100, activation='relu', input_dim=n_input))
     model.add(Dense(8, activation = 'relu'))
     model.add(Dense(n_steps_out))
+    
+    # select the optimizer with learning rate 
+    #optimizer=keras.optimizers.Adam(lr=.01, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
+    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error', 'mean_squared_error'])
     model.summary()
 
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
+    #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=400, batch_size=1, verbose=1, callbacks=[es], validation_data=(test_features, test_target))
+    model_history = model.fit(train_features, train_target, epochs=400, batch_size=1, verbose=1, validation_data=(test_features, test_target))
     # I can select the learning rate through the optimizer
 
     # Evaluate the model
-    _, train_acc = model.evaluate(train_features, train_target, verbose=0)
-    _, test_acc = model.evaluate(test_features, test_target, verbose=0)
-    print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
+    # _, train_acc = model.evaluate(train_features, train_target, verbose=0)
+    #_, test_acc = model.evaluate(test_features, test_target, verbose=0)
+    #print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
+    
+
+    hist = pd.DataFrame(model_history.history)
+    hist['epoch'] = model_history.epoch
+    print("hist_tail",hist.tail())
 
     # Predictions
     predictions = model.predict(train_features[:10])
@@ -115,7 +127,32 @@ def main():
     #plt.show()
     #plt.savefig('data/Val and train mean sq errors.png')
 
+    def plot_history(history):
+        hist = pd.DataFrame(model_history.history)
+        hist['epoch'] = model_history.epoch
 
+        plt.figure()
+        plt.xlabel('Epoch')
+        plt.ylabel('Mean Abs Error')
+        plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
+        plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
+        plt.ylim([2,5])
+        plt.legend()
+        plt.savefig(CWD + '/figures/Mean abs Error.png')
+
+        plt.figure()
+        plt.xlabel('Epoch')
+        plt.ylabel('Mean Square Error ')
+        plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
+        plt.plot(hist['epoch'], hist['val_mean_squared_error'],label = 'Val Error')
+        plt.ylim([10,40])
+        plt.legend()
+        plt.savefig(CWD + '/figures/Mean Square Error.png')
+        plt.show()
+
+
+    plot_history(model_history)
+    
 if __name__ == "__main__":
     main()
     

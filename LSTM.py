@@ -8,6 +8,7 @@ from pandas import DataFrame
 from pandas import concat
 from numpy import hstack
 from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -60,12 +61,17 @@ n_input = X.shape[1] * X.shape[2]
 X = X.reshape((X.shape[0], n_input))
     
 train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
+# reshape input to be 3D [samples, timesteps, features]
+train_features = train_features.reshape((train_features.shape[0], 1, train_features.shape[1]))
+test_features = test_features.reshape((test_features.shape[0], 1, test_features.shape[1]))
+print(train_features.shape, train_target.shape, test_target.shape, test_features.shape)
 
 # design network
 model = Sequential()
-model.add(LSTM(50, input_shape=(train_features.shape[1], train_features.shape[2])))
+model.add(LSTM(100, input_shape=(train_features.shape[1], train_features.shape[2])))
 model.add(Dense(1))
-model.compile(loss='mae', optimizer='adam')
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
+model.summary()
 # fit network
 history = model.fit(train_features, train_target, epochs=50, batch_size=72, validation_data=(test_features, test_target), verbose=2, shuffle=False)
 # plot history
@@ -75,11 +81,11 @@ pyplot.legend()
 pyplot.show()
 
 
-# # make a prediction
-# yhat = model.predict(test_features)
-# test_features = test_features.reshape((test_features.shape[0], test_features.shape[2]))
-# # invert scaling for forecast
-# inv_yhat = concatenate((yhat, test_features[:, 1:]), axis=1)
+# make a prediction
+yhat = model.predict(test_features)
+test_features = test_features.reshape((test_features.shape[0], test_features.shape[2]))
+# invert scaling for forecast
+#inv_yhat = concatenate((yhat, test_features[:, 1:]), axis=1)
 # inv_yhat = scaler.inverse_transform(inv_yhat)
 # inv_yhat = inv_yhat[:,0]
 # # invert scaling for actual
