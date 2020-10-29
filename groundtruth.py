@@ -14,7 +14,7 @@ from pathlib import Path
 
 "----- Formula from Forza -----"
 def Forza(gt,FS,Sensibility,Gain):
-    Val = (FS *1000)/(Sensibility * Gain * 5);
+    Val = FS/(Sensibility * Gain * 5);
     Val = Val * 9.807;   #To have the force in Newton instead of Kg
     F = pd.DataFrame(gt.iloc[:] * Val)
     return F
