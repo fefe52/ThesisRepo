@@ -20,10 +20,10 @@ def fMAV(y):
     n = len(y);
     mav = []
     len_window = 1024;
-    for i in range(n):
-        if n in range((i*1024),((i+1)*1024)):
+    for i in range(0,n,512):
+        if n in range(i,(i+len_window)):
             break
-        z = y[(i*1024):((i+1)*1024)];
+        z = y[i:(i+len_window)];
         mav.append(np.sum(abs(z))/len(z))
     mav = np.array(mav);
     return mav

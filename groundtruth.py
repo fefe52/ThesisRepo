@@ -25,10 +25,11 @@ def Torque(F,MA):
     TRQ = []
     TRQ_VAL = np.zeros([len(F),1]);
     TRQ_VAL[:] = F.iloc[:]*MA
-    for i in range(n):
-        if n in range((i*1024),((i+1)*1024)):
+    len_window = 1024;
+    for i in range(0,n,512):
+        if n in range(i,(i+len_window)):
             break
-        z = TRQ_VAL[(i*1024):((i+1)*1024)]; 
+        z = TRQ_VAL[i:(i+len_window)]; 
         TRQ.append(np.sum(abs(z))/len(z))
     TRQ = np.array(TRQ);
     return TRQ

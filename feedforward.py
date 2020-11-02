@@ -113,20 +113,11 @@ def main():
     print("hist_tail",hist.tail())
 
     # Predictions
-    predictions = model.predict(train_features[:10])
+    predictions = model.predict(train_features)
+    print("predictions",predictions.shape)
 
 
     "--Plots--"
-    #plt.figure(figsize=(30,10))
-    #plt.plot(range(1,401),model_history.history["val_loss"])
-    #plt.plot(range(1,401),model_history.history["loss"])
-    #plt.legend(["Val Mean Sq Error (Val Loss)","Train Mean Sq Error (Train Loss)"])
-    #plt.xlabel("EPOCHS")
-    #plt.ylabel("Mean Sq Error")
-    #plt.xticks(range(1,401))
-    #plt.show()
-    #plt.savefig('data/Val and train mean sq errors.png')
-
     def plot_history(history):
         hist = pd.DataFrame(model_history.history)
         hist['epoch'] = model_history.epoch
@@ -143,9 +134,18 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
-        plt.plot(hist['epoch'], hist['val_mean_squared_error'])
+        plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
         plt.savefig(CWD + '/figures/Mean Square Error.png')
+        plt.show()
+
+        plt.figure()
+        plt.xlabel('Epoch')
+        plt.ylabel('Prediction values')
+        plt.legend(["Train data", "Test data"])
+        plt.plot(train_target)
+        plt.plot(predictions)
+        plt.savefig(CWD + '/figures/Predictions.png')
         plt.show()
 
 
