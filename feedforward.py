@@ -92,6 +92,7 @@ def main():
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
+    #the optimizer shows how we update the weights
     model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error', 'mean_squared_error'])
     model.summary()
 
@@ -99,23 +100,24 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=400, batch_size=1, verbose=1, validation_data=(test_features, test_target))
+    model_history = model.fit(train_features, train_target, epochs=400, verbose=0, validation_split = 0.1)
     # I can select the learning rate through the optimizer
 
-    # Evaluate the model
-    # _, train_acc = model.evaluate(train_features, train_target, verbose=0)
-    #_, test_acc = model.evaluate(test_features, test_target, verbose=0)
-    #print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
-    
 
+    ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
     print("hist_tail",hist.tail())
 
-    # Predictions
-    predictions = model.predict(test_features)
-    print("predictions",predictions.shape)
+    ### Predictions
+    train_targets_pred = model.predict(train_features)
+    test_targets_pred = model.predict(test_features)
 
+    ### R2 score of training and testing data 
+    # R2 is a statistical measure of how close the data is to the regression model (its output)
+    print("The R2 score on the Train set is:\t{>0.3f}".format(r2_score(train_target,train_targets_pred)))
+    print("The R2 score on the Test set is:\t{>0.3f}".format(r2_score(test_target,test_targets_pred)))
+    ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
 
     "--Plots--"
     def plot_history(history):
@@ -139,13 +141,13 @@ def main():
         plt.savefig(CWD + '/figures/Mean Square Error.png')
         plt.show()
 
-        plt.figure()
-        plt.xlabel('Epoch')
-        plt.ylabel('Prediction values')
-        plt.plot(train_target)
-        plt.plot(predictions)
-        plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
-        plt.show()
+        # plt.figure()
+        # plt.xlabel('Epoch')
+        # plt.ylabel('Prediction values')
+        # plt.plot(train_target)
+        # plt.plot(train_targets_pred)
+        # plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
+        # plt.show()
 
 
     plot_history(model_history)
