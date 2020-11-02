@@ -9,8 +9,12 @@ import keras
 import sklearn
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.layers import Dropout
+from keras.layers import Activation
 from keras.wrappers.scikit_learn import KerasRegressor
-
+from sklearn.metrics import r2_score
+from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
@@ -50,13 +54,18 @@ def main():
 
     #### FOLLOW SAME ORDER OF GIVING FEATURES AND LABELS TO ASSOCIATE IN THE RIGHT WAY
 
-
+    
 
     # convert to [rows, columns] structure
-    in_seq = MAVgl_channels;   
+    in_seq = MAVgl_channels; 
+    #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
+    #X_scaler = preprocessing.MinMaxScaler()
+    #y_scaler = preprocessing.MinMaxScaler()
+    #in_seq = (X_scaler.fit_transform(in_pre_seq.reshape(-1,1)))
+    #out_seq = (y_scaler.fit_transform(out_pre_seq.reshape(-1,1)))
 
     # horizontally stack columns
-    dataset = hstack((in_seq, out_seq))
+    dataset = hstack((in_seq, out_pre_seq))
     # choose a number of time steps
     n_steps_in, n_steps_out = 5, 1
 
@@ -84,6 +93,8 @@ def main():
     # Create the model
     model = Sequential()
     model.add(Dense(100, activation='relu', input_dim=n_input))
+    model.add(Dropout(.2))
+    model.add(Dense(20, activation='relu'))
     model.add(Dense(8, activation = 'relu'))
     model.add(Dense(n_steps_out))
     
@@ -100,8 +111,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=400, verbose=0, validation_split = 0.1)
-    # I can select the learning rate through the optimizer
+    model_history = model.fit(train_features, train_target, epochs=1000, verbose=0, validation_split = 0.2)   # I can select the learning rate through the optimizer
 
 
     ### to plot model's training cost/loss and model's validation split cost/loss
@@ -115,8 +125,8 @@ def main():
 
     ### R2 score of training and testing data 
     # R2 is a statistical measure of how close the data is to the regression model (its output)
-    print("The R2 score on the Train set is:\t{>0.3f}".format(r2_score(train_target,train_targets_pred)))
-    print("The R2 score on the Test set is:\t{>0.3f}".format(r2_score(test_target,test_targets_pred)))
+    print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
+    print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
     ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
 
     "--Plots--"

@@ -60,8 +60,8 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             MA = 10.5;                   #measured value from lab
             
             TRQ = Torque(F,MA)
-            out_seq = TRQ.reshape((len(TRQ), 1))
-            print("size of out_seq", len(out_seq))
+            out_pre_seq = TRQ.reshape((len(TRQ), 1))
+            print("size of out_seq", len(out_pre_seq))
             # strPF = "_PF_";
             # strDF = "_DF_";
             # if (name.find(strPF) != -1):
