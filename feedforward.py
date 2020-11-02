@@ -107,13 +107,12 @@ def main():
     #_, test_acc = model.evaluate(test_features, test_target, verbose=0)
     #print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
     
-
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
     print("hist_tail",hist.tail())
 
     # Predictions
-    predictions = model.predict(train_features)
+    predictions = model.predict(test_features)
     print("predictions",predictions.shape)
 
 
@@ -142,12 +141,11 @@ def main():
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
-        plt.legend(["Train data", "Test data"])
         plt.plot(train_target)
         plt.plot(predictions)
-        plt.savefig(CWD + '/figures/Predictions.png')
+        plt.legend()
+        plt.savefig(CWD + '/figures/Predictions vs groundtruth - feedforward.png')
         plt.show()
-
 
     plot_history(model_history)
     
