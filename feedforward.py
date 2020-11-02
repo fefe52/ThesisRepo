@@ -50,13 +50,22 @@ def main():
 
     #### FOLLOW SAME ORDER OF GIVING FEATURES AND LABELS TO ASSOCIATE IN THE RIGHT WAY
 
-
+    
 
     # convert to [rows, columns] structure
-    in_seq = MAVgl_channels;   
-
+    in_seq = MAVgl_channels; 
+    
+    "scatter plot for correlation"
+    plt.plot(in_seq,out_seq, 'o',color='cadetblue', label='correlation for same recording')
+    plt.title("features vs groundtruth")
+    plt.xlabel("MAV values")
+    plt.ylabel("Torque values")
+    plt.legend()
+    plt.savefig(CWD + '/figures/correlation plot.png')
+    plt.show()
     # horizontally stack columns
     dataset = hstack((in_seq, out_seq))
+    print("correlation values", dataset.corr())
     # choose a number of time steps
     n_steps_in, n_steps_out = 5, 1
 
