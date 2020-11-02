@@ -50,22 +50,13 @@ def main():
 
     #### FOLLOW SAME ORDER OF GIVING FEATURES AND LABELS TO ASSOCIATE IN THE RIGHT WAY
 
-    
+
 
     # convert to [rows, columns] structure
-    in_seq = MAVgl_channels; 
-    
-    "scatter plot for correlation"
-    plt.plot(in_seq,out_seq, 'o',color='cadetblue', label='correlation for same recording')
-    plt.title("features vs groundtruth")
-    plt.xlabel("MAV values")
-    plt.ylabel("Torque values")
-    plt.legend()
-    plt.savefig(CWD + '/figures/correlation plot.png')
-    plt.show()
+    in_seq = MAVgl_channels;   
+
     # horizontally stack columns
     dataset = hstack((in_seq, out_seq))
-    print("correlation values", dataset.corr())
     # choose a number of time steps
     n_steps_in, n_steps_out = 5, 1
 
@@ -116,6 +107,7 @@ def main():
     #_, test_acc = model.evaluate(test_features, test_target, verbose=0)
     #print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
     
+
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
     print("hist_tail",hist.tail())
@@ -152,9 +144,9 @@ def main():
         plt.ylabel('Prediction values')
         plt.plot(train_target)
         plt.plot(predictions)
-        plt.legend()
-        plt.savefig(CWD + '/figures/Predictions vs groundtruth - feedforward.png')
+        plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
         plt.show()
+
 
     plot_history(model_history)
     
