@@ -83,8 +83,27 @@ def main():
     X = X.reshape((X.shape[0], n_input))
 
     # Split of the data
-    train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
+    #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
+    #using a split of 80-20
+    train_size = int(len(X)*0.80)
+    train_features, test_features = X[0:train_size], X[train_size:len(X)]
+    train_val_size = int(len(train_features)*0.80)
+    train_features, val_features= train_features[0:train_val_size],train_features[train_val_size:len(train_features)]
+    print('Observations: %d' % (len(X)))
+    print('Training Observations: %d' % (len(train_features)))
+    print('Testing Observations: %d' % (len(test_features)))
+    print('Validation observations: %d' % (len(val_features)))
+    #figure()
+    #plt.plot(train)
+    #plt.plot([None for i in train] + [v for v in val] + [None for x in test])
+    #plt.plot([None for i in train] + [None for v in val] + [x for x in test])
+    #plt.savefig(CWD + '/figures/train, validation and test dataset.png')
+    #plt.show()
+    train_target, test_target = Y[0:train_size], Y[train_size:len(Y)]
+    train_target, val_target = train_target[0:train_val_size], train_target[train_val_size:len(train_target)]
+    
+    print('check len test_target: %d' % (len(test_target)))
     # Normalize data
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
@@ -111,7 +130,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=1000, verbose=0, validation_split = 0.2)   # I can select the learning rate through the optimizer
+    model_history = model.fit(train_features, train_target, epochs=1000, verbose=0, validation_data = [val_features,val_target])   # I can select the learning rate through the optimizer
 
 
     ### to plot model's training cost/loss and model's validation split cost/loss
@@ -122,12 +141,17 @@ def main():
     ### Predictions
     train_targets_pred = model.predict(train_features)
     test_targets_pred = model.predict(test_features)
-
+    print("len of train pred", train_targets_pred.shape)
+    print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 
     # R2 is a statistical measure of how close the data is to the regression model (its output)
-    print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
-    print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
+    #print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
+    #print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
     ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
+    ## standardizing statsmodel
+
+
+
 
     "--Plots--"
     def plot_history(history):
@@ -159,7 +183,20 @@ def main():
         # plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
         # plt.show()
 
-
+        #plot
+        #plt.figure()
+        #plt.scatter(train_target,edgecolors='g')
+        #plt.plot(train_targets_pred,'r')
+        #plt.legend([ 'Predictated Y' ,'Actual Y'])
+        #plt.savefig(CWD + '/figures/trainpredictions.png')
+        #plt.show()
+        
+        #plt.figure()
+        #plt.scatter(test_target,edgecolors='g')
+        #plt.plot(test_targets_pred,'r')
+        #plt.legend(['Predictated test','Actual test'])
+        #plt.savefig(CWD + '/figures/testpredictions.png')
+        #plt.show()
     plot_history(model_history)
     
 if __name__ == "__main__":
