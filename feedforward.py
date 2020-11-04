@@ -83,7 +83,7 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 80-20
-    train_size = int(len(X)*0.80)
+    train_size = int(len(X)*0.20)
     train_features, test_features = X[0:train_size], X[train_size:len(X)]
     train_val_size = int(len(train_features)*0.80)
     train_features, val_features= train_features[0:train_val_size],train_features[train_val_size:len(train_features)]
@@ -105,26 +105,25 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(100, activation='relu', input_dim=n_input))
+    model.add(Dense(20, activation='relu', input_dim=n_input))
     model.add(Dropout(.2))
-    model.add(Dense(20, activation='relu'))
-    model.add(Dense(8, activation = 'relu'))
+    model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     
     # select the optimizer with learning rate 
-    #optimizer=keras.optimizers.Adam(lr=.01, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False)
+    optim_adam=keras.optimizers.Adam(lr=0.01)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
     #the optimizer shows how we update the weights
-    model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error', 'mean_squared_error'])
+    model.compile(loss='mean_squared_error', optimizer=optim_adam, metrics=['mean_absolute_error', 'mean_squared_error'])
     model.summary()
 
     # Early stopping
     #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=1000, verbose=0, validation_data = [val_features,val_target])   # I can select the learning rate through the optimizer
+    model_history = model.fit(train_features, train_target, epochs=1000, batch_size = 10, verbose=0, validation_data = [val_features,val_target])   # I can select the learning rate through the optimizer
 
 
     ### to plot model's training cost/loss and model's validation split cost/loss
