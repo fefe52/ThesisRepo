@@ -20,12 +20,9 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
-from sklearn.exceptions import FitFailedWarning
-
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 
-import warnings
 
 from thesisproject_Fede import *
 from features import fMAV
@@ -86,7 +83,7 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 80-20
-    train_size = int(len(X)*0.80)
+    train_size = int(len(X)*0.50)
     train_features, test_features = X[0:train_size], X[train_size:len(X)]
     train_val_size = int(len(train_features)*0.80)
     train_features, val_features= train_features[0:train_val_size],train_features[train_val_size:len(train_features)]
