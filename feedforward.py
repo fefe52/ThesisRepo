@@ -83,24 +83,19 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 80-20
-    train_size = int(len(X)*0.50)
+    train_size = int(len(X)*0.80)
     train_features, test_features = X[0:train_size], X[train_size:len(X)]
     train_val_size = int(len(train_features)*0.80)
     train_features, val_features= train_features[0:train_val_size],train_features[train_val_size:len(train_features)]
-    print('Observations: %d' % (len(X)))
-    print('Training Observations: %d' % (len(train_features)))
-    print('Testing Observations: %d' % (len(test_features)))
-    print('Validation observations: %d' % (len(val_features)))
-    #figure()
-    #plt.plot(train)
-    #plt.plot([None for i in train] + [v for v in val] + [None for x in test])
-    #plt.plot([None for i in train] + [None for v in val] + [x for x in test])
-    #plt.savefig(CWD + '/figures/train, validation and test dataset.png')
-    #plt.show()
     train_target, test_target = Y[0:train_size], Y[train_size:len(Y)]
     train_target, val_target = train_target[0:train_val_size], train_target[train_val_size:len(train_target)]
-    
-    print('check len test_target: %d' % (len(test_target)))
+    figure()
+    plt.plot(Y,'r')
+    plt.plot(train_target,'b')
+    plt.plot(val_target,'m')
+    plt.plot(test_target,'g')
+    plt.savefig(CWD + '/figures/all target.png')
+    plt.show()
     # Normalize data
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
