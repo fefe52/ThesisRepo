@@ -188,7 +188,7 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
-        plt.legend(['Predictated test','Actual test'])
+        plt.legend(['actual target','predictated values'])
         plt.savefig(CWD + '/figures/testpredictions.png')
         plt.show()
     plot_history(model_history)
