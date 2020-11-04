@@ -91,9 +91,9 @@ def main():
     train_target, val_target = train_target[0:train_val_size], train_target[train_val_size:len(train_target)]
     figure()
     plt.plot(Y,'r')
-    plt.plot(train_target,'b')
-    plt.plot(val_target,'m')
-    plt.plot(test_target,'g')
+    #plt.plot(train_target,'b')
+    #plt.plot(val_target,'m')
+    #plt.plot(test_target,'g')
     plt.savefig(CWD + '/figures/all target.png')
     plt.show()
     # Normalize data
