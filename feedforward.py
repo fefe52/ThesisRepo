@@ -145,8 +145,8 @@ def main():
     print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 
     # R2 is a statistical measure of how close the data is to the regression model (its output)
-    #print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
-    #print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
+    print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
+    print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
     ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
     ## standardizing statsmodel
 
@@ -191,12 +191,12 @@ def main():
         #plt.savefig(CWD + '/figures/trainpredictions.png')
         #plt.show()
         
-        #plt.figure()
-        #plt.scatter(test_target,edgecolors='g')
-        #plt.plot(test_targets_pred,'r')
-        #plt.legend(['Predictated test','Actual test'])
-        #plt.savefig(CWD + '/figures/testpredictions.png')
-        #plt.show()
+        plt.figure()
+        plt.plot(test_target,'g')
+        plt.plot(test_targets_pred,'r')
+        plt.legend(['Predictated test','Actual test'])
+        plt.savefig(CWD + '/figures/testpredictions.png')
+        plt.show()
     plot_history(model_history)
     
 if __name__ == "__main__":
