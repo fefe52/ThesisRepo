@@ -83,12 +83,11 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 80-20
-    train_size = int(len(X)*0.20)
-    train_features, test_features = X[0:train_size], X[train_size:len(X)]
-    train_val_size = int(len(train_features)*0.80)
-    train_features, val_features= train_features[0:train_val_size],train_features[train_val_size:len(train_features)]
-    train_target, test_target = Y[0:train_size], Y[train_size:len(Y)]
-    train_target, val_target = train_target[0:train_val_size], train_target[train_val_size:len(train_target)]
+    features_size = int(len(X)*0.60)
+    #test_size = int(len(X)*0.100)
+    target_size = int(len(Y)*0.60)
+    train_features, test_features = X[0:features_size], X[features_size:len(X)]
+    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
     figure()
     plt.plot(Y)
     plt.savefig(CWD + '/figures/all target.png')
@@ -98,6 +97,14 @@ def main():
     plt.plot(test_target)
     plt.savefig(CWD + '/figures/test_target.png')
     plt.show()
+
+
+    print("train_target",len(train_target))
+    #print("validation_target",len(val_target))
+    print("test_target",len(test_target))
+
+    print("----------")
+    print("train_features", len(train_features))
     # Normalize data
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
@@ -105,7 +112,7 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(20, activation='relu', input_dim=n_input))
+    model.add(Dense(20, activation='relu',input_dim=n_input))
     model.add(Dropout(.2))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
@@ -120,12 +127,10 @@ def main():
     model.summary()
 
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', verbose=1)    
+    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=1000, batch_size = 10, verbose=0, validation_data = [val_features,val_target])   # I can select the learning rate through the optimizer
-
-
+    model_history = model.fit(train_features, train_target, epochs=1000, batch_size = len(train_target), verbose=0)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -141,7 +146,12 @@ def main():
     print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(train_target,train_targets_pred)))
     print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(test_target,test_targets_pred)))
     ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
-    ## standardizing statsmodel
+    RMSE_train = np.square(np.subtract(train_target, train_targets_pred)).mean()
+    RMSE_test = np.square(np.subtract(test_target,test_targets_pred)).mean()
+    print("The RMSE on Train set is: ", RMSE_train)
+    print("The RMSE on Test set is: ", RMSE_test)
+
+    
 
 
 
@@ -155,7 +165,7 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
-        plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
+        #plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
         plt.savefig(CWD + '/figures/Mean abs Error.png')
 
@@ -163,7 +173,7 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
-        plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
+        #plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
         plt.savefig(CWD + '/figures/Mean Square Error.png')
         plt.show()
