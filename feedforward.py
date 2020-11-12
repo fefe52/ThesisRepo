@@ -64,7 +64,7 @@ def main():
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
     # choose a number of time steps
-    n_steps_in, n_steps_out = 5, 1
+    n_steps_in, n_steps_out = 10, 1
 
 
     # convert into input/output
@@ -83,9 +83,9 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 80-20
-    features_size = int(len(X)*0.70)
+    features_size = int(len(X)*0.80)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.70)
+    target_size = int(len(Y)*0.80)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
     figure()
