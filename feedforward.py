@@ -118,7 +118,7 @@ def main():
     model.add(Dense(n_steps_out))
     
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.01)
+    optim_adam=keras.optimizers.Adam(lr=0.1)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
