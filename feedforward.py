@@ -113,7 +113,7 @@ def main():
     # Create the model
     model = Sequential()
     model.add(Dense(100, activation='relu',input_dim=n_input))
-    model.add(Dropout(.2))
+    #model.add(Dropout(.2))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     
