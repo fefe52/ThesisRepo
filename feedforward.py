@@ -64,7 +64,7 @@ def main():
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
     # choose a number of time steps
-    n_steps_in, n_steps_out = 10, 1
+    n_steps_in, n_steps_out = 3, 1
 
 
     # convert into input/output
