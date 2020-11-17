@@ -149,8 +149,11 @@ def main():
     ## if we are having r2_score bigger of train set then in test set, we are probably overfitting
     RMSE_train = np.square(np.subtract(train_target, train_targets_pred)).mean()
     RMSE_test = np.square(np.subtract(test_target,test_targets_pred)).mean()
+    mean_test_target = test_target.mean()
+    SI_test = RMSE_test / mean_test_target
     print("The RMSE on Train set is: ", RMSE_train)
     print("The RMSE on Test set is: ", RMSE_test)
+    print("The SI on Test set is: ", SI_test)
 
     
 

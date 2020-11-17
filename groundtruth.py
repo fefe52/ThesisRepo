@@ -55,7 +55,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             Gain = 100;
             FS = 100;
-            Sens = 2;
+            Sens = 0.002;
             F = Forza(gt,FS,Sens,Gain)
             MA = 10.5;                   #measured value from lab
             
@@ -79,14 +79,16 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
 
             # "------plot of the Force-------"
 
-            # plt.plot(gt.iloc[:100])
-            # plt.title("original data from AUX Input")
-            # plt.show()
+            #plt.plot(gt.iloc[:100])
+            #plt.title("original data from AUX Input")
+            #plt.show()
             
-            # pd.set_option('precision',10)
-            # figure(1)
-            # plt.plot(F.iloc[:100])
-            # plt.title("Force")
+            #pd.set_option('precision',10)
+            figure(1)
+            plt.plot(F.iloc[:100])
+            #plt.title("Force")
+            plt.savefig(CWD + '/figures/Force.png')
+            plt.show()
 
             # figure(2)
             # plt.plot(TRQ.iloc[:100])
