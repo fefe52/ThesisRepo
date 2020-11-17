@@ -79,9 +79,9 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
 
             # "------plot of the Force-------"
 
-            plt.plot(gt.iloc[:])
+            plt.plot(F.iloc[:])
             plt.title("original data from AUX Input")
-            plt.savefig(CWD + "/figures/AUX input.png")
+            plt.savefig(CWD + "/figures/Force.png")
             plt.show()
             
             #pd.set_option('precision',10)
