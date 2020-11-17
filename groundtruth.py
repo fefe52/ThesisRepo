@@ -85,7 +85,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             #pd.set_option('precision',10)
             figure(1)
-            plt.plot(F.iloc[:100])
+            plt.plot(F.iloc[:])
             #plt.title("Force")
             plt.savefig(CWD + '/figures/Force.png')
             plt.show()
