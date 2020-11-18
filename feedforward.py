@@ -54,7 +54,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = MAVgl_channels; 
+    in_seq = MAV_channels; 
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
     #X_scaler = preprocessing.MinMaxScaler()
     #y_scaler = preprocessing.MinMaxScaler()

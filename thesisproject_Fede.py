@@ -15,7 +15,7 @@ from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
+#CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -88,13 +88,13 @@ for root, dirs, files in os.walk(finalpath):
             for c in range(gl_diffchannels):
                 MAVgl_channels.append(fMAV(diff_gl[c,:]))
                 MAVp_channels.append(fMAV(diff_p[c,:]))
-            MAVgl_channels = np.array(MAVgl_channels);
-            MAVp_channels = np.array(MAVp_channels);
-            MAVgl_channels = np.transpose(MAVgl_channels);
-            MAVp_channels = np.transpose(MAVp_channels);
-            print("MAVgl_channels",MAVgl_channels.shape)
-            print("MAVp_channels",MAVp_channels.shape)
-            print("check values of MAV, channel 2", MAVgl_channels[:,2])
+            #MAVgl_channels = np.array(MAVgl_channels);
+            #MAVp_channels = np.array(MAVp_channels);
+            #MAVgl_channels = np.transpose(MAVgl_channels);
+            #MAVp_channels = np.transpose(MAVp_channels);
+            #print("MAVgl_channels",MAVgl_channels.shape)
+            #print("MAVp_channels",MAVp_channels.shape)
+
             
             
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
@@ -105,17 +105,23 @@ for root, dirs, files in os.walk(finalpath):
                 MAVgm_channels.append(fMAV(diff_gm[b,:]))
                 MAVta_channels.append(fMAV(diff_ta[b,:]))
                 MAVsol_channels.append(fMAV(diff_sol[b,:]))
-            MAVgm_channels = np.array(MAVm_channels);
-            MAVta_channels = np.array(MAVta_channels);
-            MAVsol_channels = np.array(MAVsol_channels);
-            MAVgm_channels = np.transpose(MAVgm_channels);
-            MAVta_channels = np.transpose(MAVta_channels);
-            MAVsol_channels = np.transpose(MAVsol_channels);
-            print("MAVgm_channels",MAVgm_channels.shape)
-            print("MAVta_channels",MAVta_channels.shape)
-            print("MAVsol_channels",MAVsol_channels.shape)
-     
-              
+            #MAVgm_channels = np.array(MAVgm_channels);
+            #MAVta_channels = np.array(MAVta_channels);
+            #MAVsol_channels = np.array(MAVsol_channels);
+            #MAVgm_channels = np.transpose(MAVgm_channels);
+            #MAVta_channels = np.transpose(MAVta_channels);
+            #MAVsol_channels = np.transpose(MAVsol_channels);
+            #print("MAVgm_channels",MAVgm_channels.shape)
+            #print("MAVta_channels",MAVta_channels.shape)
+            #print("MAVsol_channels",MAVsol_channels.shape)
+             
+            "All muscles features "
+            MAV_channels = []
+            MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
+            MAV_channels = np.array(MAV_channels);
+            MAV_channels = np.transpose(MAV_channels);
+            print("MAV_channels",MAV_channels.shape)
+
             # "------ plot MAV profile ------" #only gastrocnemio lateralis
             # plots= diff_gl.shape[0]
             # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
