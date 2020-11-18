@@ -15,7 +15,6 @@ from pathlib import Path
 "----- Formula from Forza -----"
 def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
-    Val = Val - 2;  ## Take out offset
     Val = Val * 9.807;   #To have the force in Newton instead of Kg
     F = pd.DataFrame(gt.iloc[:] * Val)
     return F
@@ -56,7 +55,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             Gain = 100;
             FS = 100;
-            Sens = 0.002;
+            Sens = 2;
             F = Forza(gt,FS,Sens,Gain)
             MA = 10.5;                   #measured value from lab
             
@@ -81,7 +80,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             # "------plot of the Force-------"
 
             plt.plot(F.iloc[:])
-            plt.title("original data from AUX Input")
+            plt.title("Force in Kg")
             plt.savefig(CWD + "/figures/Force.png")
             plt.show()
             
