@@ -16,7 +16,7 @@ from pathlib import Path
 def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
     Val = Val * 9.807;   #To have the force in Newton instead of Kg
-    gt.subtract(2)    ## take out the offset
+    gt = gt - 2;    ## take out the offset
     F = pd.DataFrame(gt.iloc[:] * Val)
     return F
 
