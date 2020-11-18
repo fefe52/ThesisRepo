@@ -58,7 +58,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             FS = 100;
             Sens = 0.002;
             F = Forza(gt,FS,Sens,Gain)
-            MA = 10.5;                   #measured value from lab
+            MA = 0.105;                   #measured value from lab in m
             
             TRQ = Torque(F,MA)
             out_pre_seq = TRQ.reshape((len(TRQ), 1))
@@ -79,7 +79,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
 
 
             # "------plot of the Force-------"
-
+            figure() 
             plt.plot(F.iloc[:])
             plt.title("Force applied in Newton")
             plt.ylabel("N")
@@ -87,11 +87,12 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             plt.show()
             
             #pd.set_option('precision',10)
-            #figure(1)
-            #plt.plot(F.iloc[:])
-            #plt.title("Force")
-            #plt.savefig(CWD + '/figures/Force.png')
-            #plt.show()
+            #"------plot of the Torque------"
+            figure()
+            plt.plot(TRQ)
+            plt.title("Torque in Nm")
+            plt.savefig(CWD + '/figures/Torque.png')
+            plt.show()
 
             # figure(2)
             # plt.plot(TRQ.iloc[:100])
