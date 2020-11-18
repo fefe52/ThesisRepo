@@ -79,7 +79,6 @@ def main():
 
     X = X.reshape((X.shape[0], n_input))
     print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
-    print(X[100:])
 
 
     # Split of the data
@@ -185,13 +184,13 @@ def main():
         plt.savefig(CWD + '/figures/Mean Square Error.png')
         plt.show()
 
-        # plt.figure()
-        # plt.xlabel('Epoch')
-        # plt.ylabel('Prediction values')
-        # plt.plot(train_target)
-        # plt.plot(train_targets_pred)
-        # plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
-        # plt.show()
+        plt.figure()
+        plt.xlabel('Epoch')
+        plt.ylabel('Prediction values')
+        plt.plot(train_target)
+        plt.plot(train_targets_pred)
+        plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
+        plt.show()
 
         #plot
         #plt.figure()
