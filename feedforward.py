@@ -64,7 +64,7 @@ def main():
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
     # choose a number of time steps
-    n_steps_in, n_steps_out = 5, 1
+    n_steps_in, n_steps_out = 20, 1
 
 
     # convert into input/output
@@ -124,7 +124,7 @@ def main():
     model.add(Dense(n_steps_out))
     
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.1)
+    optim_adam=keras.optimizers.Adam(lr=0.01)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
