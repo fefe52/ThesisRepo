@@ -15,8 +15,9 @@ from pathlib import Path
 "----- Formula from Forza -----"
 def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
+    #Val = 1;
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
-    F = pd.DataFrame((gt.iloc[:]-2.3) * Val)
+    F = pd.DataFrame((gt.iloc[:] - 2.257) * Val)
     return F
 
 "----- Formula Torque -----"
@@ -49,7 +50,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
             gt = pd.read_csv(name, sep=';' , engine ='python');
-            gt += np.arange(len(gt.columns))
+            #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)
             
             
