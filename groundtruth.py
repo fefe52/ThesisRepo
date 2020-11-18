@@ -15,9 +15,8 @@ from pathlib import Path
 "----- Formula from Forza -----"
 def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
-    Val = Val * 9.807;   #To have the force in Newton instead of Kg
-    gt = gt - 2;    ## take out the offset
-    F = pd.DataFrame(gt.iloc[:] * Val)
+    Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
+    F = pd.DataFrame((gt.iloc[:]-2) * Val)
     return F
 
 "----- Formula Torque -----"
