@@ -59,16 +59,16 @@ for root, dirs, files in os.walk(finalpath):
             sol_channels = len(df_sol.columns);
             
             diff_gl = Differential(df_gl,gl_channels);
-            # diff_p = Differential(df_p,p_channels);
-            # diff_gm = Differential(df_gm,gm_channels);
-            # diff_ta = Differential(df_ta,ta_channels);
-            # diff_sol = Differential_sol(df_sol,sol_channels);
+            diff_p = Differential(df_p,p_channels);
+            diff_gm = Differential(df_gm,gm_channels);
+            diff_ta = Differential(df_ta,ta_channels);
+            diff_sol = Differential_sol(df_sol,sol_channels);
             
             gl_diffchannels = diff_gl.shape[0];
-            # p_diffchannels = diff_p.shape[0];
-            # gm_diffchannels = diff_gm.shape[0];
-            # ta_diffchannels = diff_ta.shape[0];
-            # sol_diffchannels = diff_sol.shape[0];
+            p_diffchannels = diff_p.shape[0];
+            gm_diffchannels = diff_gm.shape[0];
+            ta_diffchannels = diff_ta.shape[0];
+            sol_diffchannels = diff_sol.shape[0];
             
            
    

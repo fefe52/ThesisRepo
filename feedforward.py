@@ -78,6 +78,9 @@ def main():
     n_input = X.shape[1] * X.shape[2]    
 
     X = X.reshape((X.shape[0], n_input))
+    print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
+    print(X[100:])
+
 
     # Split of the data
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
