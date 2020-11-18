@@ -84,12 +84,15 @@ def main():
     # Split of the data
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
-    #using a split of 80-20
-    features_size = int(len(X)*0.80)
+    #using a split of 60-(40-60)
+    features_size = int(len(X)*0.60)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.80)
+    target_size = int(len(Y)*0.60)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
+    val_size = int(len(test_features)*0.60)
+    test_features, val_features = test_features[0:val_size],test_features[val_size:len(test_features)] 
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
+    test_target, val_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
     figure()
     plt.plot(Y)
     plt.savefig(CWD + '/figures/all target.png')
@@ -102,7 +105,7 @@ def main():
 
 
     print("train_target",len(train_target))
-    #print("validation_target",len(val_target))
+    print("validation_target",len(val_target))
     print("test_target",len(test_target))
 
     print("----------")
@@ -133,7 +136,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, epochs=1000, batch_size = len(train_target), verbose=0)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=0)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -171,7 +174,7 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
-        #plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
+        plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
         plt.savefig(CWD + '/figures/Mean abs Error.png')
 
@@ -179,7 +182,7 @@ def main():
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
-        #plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
+        plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
         plt.savefig(CWD + '/figures/Mean Square Error.png')
         plt.show()
