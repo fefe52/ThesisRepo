@@ -15,7 +15,7 @@ from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-#CWD = os.getcwd()
+CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -79,19 +79,42 @@ for root, dirs, files in os.walk(finalpath):
             
             "-------Features-------"
 
+            "Gastrocnemius Lateralis and Peroneus Longus with 32 channels,"
+            "and Gastrocnemius Medialis, Tibialis Anterior and Soleus with 64 channels"
             
-            
-            " Gastrocnemium lateralis "
-            # MAV_calc = 0;
+            " Gastrocnemium lateralis and Peroneus Longus "
             MAVgl_channels = []
+            MAVp_channels = []
             for c in range(gl_diffchannels):
                 MAVgl_channels.append(fMAV(diff_gl[c,:]))
+                MAVp_channels.append(fMAV(diff_p[c,:]))
             MAVgl_channels = np.array(MAVgl_channels);
+            MAVp_channels = np.array(MAVp_channels);
             MAVgl_channels = np.transpose(MAVgl_channels);
+            MAVp_channels = np.transpose(MAVp_channels);
             print("MAVgl_channels",MAVgl_channels.shape)
-
-
+            print("MAVp_channels",MAVp_channels.shape)
+            print("check values of MAV, channel 2", MAVgl_channels[:,2])
             
+            
+            " Gastrocnemium medialis, Tibialis Anterior and Soleus "
+            MAVgm_channels = []
+            MAVta_channels =[]
+            MAVsol_channels = []
+            for b in range(gm_diffchannels):
+                MAVgm_channels.append(fMAV(diff_gm[b,:]))
+                MAVta_channels.append(fMAV(diff_ta[b,:]))
+                MAVsol_channels.append(fMAV(diff_sol[b,:]))
+            MAVgm_channels = np.array(MAVm_channels);
+            MAVta_channels = np.array(MAVta_channels);
+            MAVsol_channels = np.array(MAVsol_channels);
+            MAVgm_channels = np.transpose(MAVgm_channels);
+            MAVta_channels = np.transpose(MAVta_channels);
+            MAVsol_channels = np.transpose(MAVsol_channels);
+            print("MAVgm_channels",MAVgm_channels.shape)
+            print("MAVta_channels",MAVta_channels.shape)
+            print("MAVsol_channels",MAVsol_channels.shape)
+     
               
             # "------ plot MAV profile ------" #only gastrocnemio lateralis
             # plots= diff_gl.shape[0]
@@ -117,13 +140,7 @@ for root, dirs, files in os.walk(finalpath):
             # plt.ylabel('WL')
             # plt.show()
 
-            # #### Peroneus Longus ####
-            # MAVp_channels = np.zeros([1,p_diffchannels]);   
-            # WLp_channels = np.zeros([1,p_diffchannels]);
-            # WAMPp_channels = np.zeros([1,p_diffchannels]);
-            # MAV_calc = 0;
-            # WL_calc = 0;
-            # WAMP_calc = 0;
+    
             
             
             # for c in range(p_diffchannels):
@@ -142,13 +159,7 @@ for root, dirs, files in os.walk(finalpath):
 
             
             
-            #   #### Gastocnemium Medialis ####
-            # MAVgm_channels = np.zeros([1,gm_diffchannels]);   
-            # WLgm_channels = np.zeros([1,gm_diffchannels]);
-            # WAMPgm_channels = np.zeros([1,gm_diffchannels]);
-            # MAV_calc = 0;
-            # WL_calc = 0;
-            # WAMP_calc = 0;
+        
             
             
             # for c in range(gm_diffchannels):
@@ -167,14 +178,7 @@ for root, dirs, files in os.walk(finalpath):
 
             
             
-            #       #### Tibialis Anterior ####
-            # MAVta_channels = np.zeros([1,ta_diffchannels]);   
-            # WLta_channels = np.zeros([1,ta_diffchannels]);
-            # WAMPta_channels = np.zeros([1,ta_diffchannels]);
-            # MAV_calc = 0;
-            # WL_calc = 0;
-            # WAMP_calc = 0;
-            
+         
             
             # for c in range(ta_diffchannels):
             #         MAVta_channels[0,c] = fMAV(diff_ta[c,:]);  
@@ -193,13 +197,7 @@ for root, dirs, files in os.walk(finalpath):
             
             
 
-            #       #### Soleus ####
-            # MAVsol_channels = np.zeros([1,sol_diffchannels]);   
-            # WLsol_channels = np.zeros([1,sol_diffchannels]);
-            # WAMPsol_channels = np.zeros([1,sol_diffchannels]);
-            # MAV_calc = 0;
-            # WL_calc = 0;
-            # WAMP_calc = 0;
+
             
             
             # for c in range(sol_diffchannels):
