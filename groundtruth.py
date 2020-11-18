@@ -16,7 +16,7 @@ from pathlib import Path
 def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
-    F = pd.DataFrame((gt.iloc[:]-2) * Val)
+    F = pd.DataFrame((gt.iloc[:]-3) * Val)
     return F
 
 "----- Formula Torque -----"
@@ -55,7 +55,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             
             Gain = 100;
             FS = 100;
-            Sens = 2;
+            Sens = 0.002;
             F = Forza(gt,FS,Sens,Gain)
             MA = 10.5;                   #measured value from lab
             
