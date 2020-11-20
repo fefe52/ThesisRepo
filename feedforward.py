@@ -117,7 +117,7 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(100, activation='relu',input_dim=n_input))
+    model.add(Dense(200, activation='relu',input_dim=n_input))
     model.add(Dropout(.2))
     model.add(Dense(50, activation='relu'))
     model.add(Dense(5, activation = 'relu'))
