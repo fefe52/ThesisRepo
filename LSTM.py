@@ -9,6 +9,9 @@ from pandas import concat
 from numpy import hstack
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
+import keras
+import sklearn
+from sklearn.metrics import r2_score
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
@@ -67,10 +70,11 @@ def main():
     #	print(X[i], Y[i])
 
     # Flatten input and output
-    n_input = X.shape[1] * X.shape[2]    
-
-    X = X.reshape((X.shape[0], n_input))
-    print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
+    #n_input = X.shape[1] * X.shape[2]    
+    
+    #X = X.reshape((X.shape[0], n_input))
+    #X_LSTM = X.reshape((
+    #print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
 
 
     # Split of the data  
@@ -83,6 +87,10 @@ def main():
     test_features, val_features = test_features[0:val_size],test_features[val_size:len(test_features)] 
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
     test_target, val_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
+
+    #reshape input to be 3D[samples,timesteps,features]
+    
+
     figure()
     plt.plot(Y)
     plt.savefig(CWD + '/figures/all target.png')
@@ -104,11 +112,12 @@ def main():
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
     #print("train_features characteristics",train_features)
-
+    
     # design network
     model = Sequential()
-    model.add(LSTM(100, input_dim=n_input))
-    model.add(Dense(1))
+    model.add(LSTM(100,activation='relu',return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    #model.add(LSTM(50, activation='relu'))
+    model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
 
@@ -163,7 +172,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Mean abs Error.png')
+        plt.savefig(CWD + '/figures/LSTM_Mean abs Error.png')
 
         plt.figure()
         plt.xlabel('Epoch')
@@ -171,7 +180,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Mean Square Error.png')
+        plt.savefig(CWD + '/figures/LSTM_Mean Square Error.png')
         plt.show()
 
         plt.figure()
@@ -179,7 +188,7 @@ def main():
         plt.ylabel('Prediction values')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
+        plt.savefig(CWD + '/figures/LSTM_Predictions vs groundtruth.png')
         plt.show()
 
         #plot
@@ -194,7 +203,7 @@ def main():
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/testpredictions.png')
+        plt.savefig(CWD + '/figures/LSTM_testpredictions.png')
         plt.show()
     plot_history(model_history)
     
