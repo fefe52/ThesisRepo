@@ -117,13 +117,13 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(400, activation='relu',input_dim=n_input))
+    model.add(Dense(400,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
     model.add(Dropout(.2))
-    model.add(Dense(100, activation='relu'))
+    model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
     model.add(Dense(50, activation = 'relu'))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
-    
+    kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
 

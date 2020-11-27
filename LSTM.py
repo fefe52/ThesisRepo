@@ -15,7 +15,7 @@ from sklearn.metrics import r2_score
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
-
+from keras.callbacks import EarlyStopping
 from thesisproject_Fede import *
 from features import fMAV
 from differentiation import *
@@ -78,7 +78,7 @@ def main():
 
 
     # Split of the data  
-    #using a split of 60-(40-60)
+    #using a split of 80-(40-60)
     features_size = int(len(X)*0.60)
     #test_size = int(len(X)*0.100)
     target_size = int(len(Y)*0.60)
