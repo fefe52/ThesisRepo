@@ -11,11 +11,11 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-from groundtruth import *
+#from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-#CWD = os.getcwd()
+CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -35,7 +35,7 @@ for root, dirs, files in os.walk(finalpath):
     for name in files:
         if name.endswith((".csv")):
             df = pd.read_csv(name, sep=';' , engine ='python');
-            df += np.arange(len(df.columns))
+            #df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
             n_channels = len(df.columns);
             t = np.arange(len(df.index))/Fsample
@@ -63,6 +63,12 @@ for root, dirs, files in os.walk(finalpath):
             diff_gm = Differential(df_gm,gm_channels);
             diff_ta = Differential(df_ta,ta_channels);
             diff_sol = Differential_sol(df_sol,sol_channels);
+            diff_gl.to_csv(CWD + '/figures/diff_gl_data.csv')
+            diff_p.to_csv(CWD + '/figures/diff_p_data.csv')
+            diff_gm.to_csv(CWD + '/figures/diff_gm_data.csv')
+            diff_ta.to_csv(CWD + '/figures/diff_ta_data.csv')
+            diff_sol.to_csv(CWD + '/figures/diff_sol_data.csv')
+            
             
             gl_diffchannels = diff_gl.shape[0];
             p_diffchannels = diff_p.shape[0];
@@ -70,10 +76,9 @@ for root, dirs, files in os.walk(finalpath):
             ta_diffchannels = diff_ta.shape[0];
             sol_diffchannels = diff_sol.shape[0];
             
+            
+        
            
-   
-            
-            
             
             
             
@@ -82,47 +87,37 @@ for root, dirs, files in os.walk(finalpath):
             "Gastrocnemius Lateralis and Peroneus Longus with 32 channels,"
             "and Gastrocnemius Medialis, Tibialis Anterior and Soleus with 64 channels"
             
-            " Gastrocnemium lateralis and Peroneus Longus "
-            MAVgl_channels = []
-            MAVp_channels = []
-            for c in range(gl_diffchannels):
-                MAVgl_channels.append(fMAV(diff_gl[c,:]))
-                MAVp_channels.append(fMAV(diff_p[c,:]))
-            #MAVgl_channels = np.array(MAVgl_channels);
-            #MAVp_channels = np.array(MAVp_channels);
-            #MAVgl_channels = np.transpose(MAVgl_channels);
-            #MAVp_channels = np.transpose(MAVp_channels);
-            #print("MAVgl_channels",MAVgl_channels.shape)
-            #print("MAVp_channels",MAVp_channels.shape)
-
+            # " Gastrocnemium lateralis and Peroneus Longus "
+            # MAVgl_channels = []
+            # MAVp_channels = []
+            # for c in range(gl_diffchannels):
+            #     MAVgl_channels.append(fMAV(diff_gl[c,:]))
+            #     MAVp_channels.append(fMAV(diff_p[c,:]))
+            
+        
             
             
-            " Gastrocnemium medialis, Tibialis Anterior and Soleus "
-            MAVgm_channels = []
-            MAVta_channels =[]
-            MAVsol_channels = []
-            for b in range(gm_diffchannels):
-                MAVgm_channels.append(fMAV(diff_gm[b,:]))
-                MAVta_channels.append(fMAV(diff_ta[b,:]))
-                MAVsol_channels.append(fMAV(diff_sol[b,:]))
-            #MAVgm_channels = np.array(MAVgm_channels);
-            #MAVta_channels = np.array(MAVta_channels);
-            #MAVsol_channels = np.array(MAVsol_channels);
-            #MAVgm_channels = np.transpose(MAVgm_channels);
-            #MAVta_channels = np.transpose(MAVta_channels);
-            #MAVsol_channels = np.transpose(MAVsol_channels);
-            #print("MAVgm_channels",MAVgm_channels.shape)
-            #print("MAVta_channels",MAVta_channels.shape)
-            #print("MAVsol_channels",MAVsol_channels.shape)
-             
-            "All muscles features "
-            MAV_channels = []
-            MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            MAV_channels = np.array(MAV_channels);
-            MAV_channels = np.transpose(MAV_channels);
-            print("MAV_channels",MAV_channels.shape)
+            # " Gastrocnemium medialis, Tibialis Anterior and Soleus "
+            # MAVgm_channels = []
+            # MAVta_channels =[]
+            # MAVsol_channels = []
+            # for b in range(gm_diffchannels):
+            #     MAVgm_channels.append(fMAV(diff_gm[b,:]))
+            #     MAVta_channels.append(fMAV(diff_ta[b,:]))
+            #     MAVsol_channels.append(fMAV(diff_sol[b,:]))
+            
+          
+            # "All muscles features "
+            # MAV_channels = []
+            # MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
+            # MAV_channels = np.array(MAV_channels);
+            # MAV_channels = np.transpose(MAV_channels);
+            # print("MAV_channels",MAV_channels.shape)
+            
+            
+            
 
-            # "------ plot MAV profile ------" #only gastrocnemio lateralis
+            "------ plot MAV profile ------" #only gastrocnemio lateralis
             # plots= diff_gl.shape[0]
             # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
             # for i in range(len(MAVgl_channels)):
@@ -134,6 +129,21 @@ for root, dirs, files in os.walk(finalpath):
             #     ax.spines['right'].set_visible(False)
             #     plt.xticks([])
             #     plt.yticks([])  
+            # plt.show()
+            
+            
+            # "------ plot MAV profile ------" #only Peroneus
+            # plots= diff_p.shape[0]
+            # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
+            # for i in range(len(MAVp_channels)):
+            #      ax = plt.subplot(plots,1,i + 1)
+            #      plt.plot(MAVp_channels[i],color='blue',linewidth=0.5)
+            #      ax.spines['top'].set_visible(False)
+            #      ax.spines['bottom'].set_visible(False)
+            #      ax.spines['left'].set_visible(False)
+            #      ax.spines['right'].set_visible(False)
+            #      plt.xticks([])
+            #      plt.yticks([])  
             # plt.show()
 
 
@@ -263,18 +273,18 @@ for root, dirs, files in os.walk(finalpath):
             # plt.ylabel('value')
             # plt.show()
 
-            # "------ plot channels after differentiation ------" #only gastrocnemio lateralis
-            # plots= diff_gl.shape[0]
+            # "------ plot channels after differentiation ------" #only peroneus
+            # plots= diff_p.shape[0]
             # figure(num=5 , figsize=(8, 6), dpi=200, facecolor='w', edgecolor='k')
             # for i in range(plots-1):
-            #     ax = plt.subplot(plots,1,i + 1)
-            #     plt.plot(diff_gl[i,:],color='blue',linewidth=0.5)
-            #     ax.spines['top'].set_visible(False)
-            #     ax.spines['bottom'].set_visible(False)
-            #     ax.spines['left'].set_visible(False)
-            #     ax.spines['right'].set_visible(False)
-            #     plt.xticks([])
-            #     plt.yticks([])  
+            #      ax = plt.subplot(plots,1,i + 1)
+            #      plt.plot(diff_p[i,:],color='blue',linewidth=0.5)
+            #      ax.spines['top'].set_visible(False)
+            #      ax.spines['bottom'].set_visible(False)
+            #      ax.spines['left'].set_visible(False)
+            #      ax.spines['right'].set_visible(False)
+            #      plt.xticks([])
+            #      plt.yticks([])  
             # plt.show()
 
 
