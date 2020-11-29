@@ -63,13 +63,9 @@ for root, dirs, files in os.walk(finalpath):
             diff_gm = Differential(df_gm,gm_channels);
             diff_ta = Differential(df_ta,ta_channels);
             diff_sol = Differential_sol(df_sol,sol_channels);
-            diff_gl.to_csv(CWD + '/figures/diff_gl_data.csv')
-            diff_p.to_csv(CWD + '/figures/diff_p_data.csv')
-            diff_gm.to_csv(CWD + '/figures/diff_gm_data.csv')
-            diff_ta.to_csv(CWD + '/figures/diff_ta_data.csv')
-            diff_sol.to_csv(CWD + '/figures/diff_sol_data.csv')
+            print("diff_ta", diff_ta)
             
-            
+                  
             gl_diffchannels = diff_gl.shape[0];
             p_diffchannels = diff_p.shape[0];
             gm_diffchannels = diff_gm.shape[0];

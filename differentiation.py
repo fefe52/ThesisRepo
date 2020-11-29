@@ -21,11 +21,11 @@ def Differential(data,grid_size):
         for col in range(int(nFiber)):
             for row in range(int(lFiber-1),0,-1):
                 idx2 = int((col-1)*lFiber + row);
-                print("idx2 " , idx2);
+                #print("idx2 " , idx2);
                 idx3 = int((col-1)*lFiber + (row-1));
-                print("idx3 " , idx3);
-                #diffData[idx1,:] = (data.iloc[:,idx2] - idx2) - (data.iloc[:,idx3] - idx3);
-                diffData[idx1,:] = (data.iloc[:,idx2]) - (data.iloc[:,idx3]);
+                #print("idx3 " , idx3);
+                diffData[idx1,:] = (data.iloc[:,idx2] - idx2) - (data.iloc[:,idx3] - idx3);
+                #diffData[idx1,:] = (data.iloc[:,idx2]) - (data.iloc[:,idx3]);
                 idx1 = idx1 + 1;           
         return diffData
     
@@ -60,6 +60,7 @@ def Differential_sol(data,grid_size):
                for row in range(int(lFiber-1)):
                    idx2 = int((col-1)*lFiber + (row -1));
                    idx3 = int((col-1)*lFiber + (row));
+                   
                    #diffData[idx1,:] = (data.iloc[:,idx2] - idx2) - (data.iloc[:,idx3] - idx3);
                    diffData[idx1,:] = (data.iloc[:,idx2]) - (data.iloc[:,idx3]);
                    idx1 = idx1 + 1;           
