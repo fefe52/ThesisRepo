@@ -115,7 +115,7 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(100,activation='relu',return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(200,activation='relu',return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
     #model.add(LSTM(50, activation='relu'))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 

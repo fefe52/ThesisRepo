@@ -11,23 +11,16 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth import *
+from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
+#CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
 Fsample = 2048;
-
-MAV_muscle = np.zeros(5);
-WL_muscle = np.zeros(5);
-WAMP_muscle = np.zeros(5);
-
-allFTR_PF = [];
-allFTR_DF = [];
 
 
 #       the dataframe has the time in x-axis and channels in y-axis         #
@@ -35,7 +28,7 @@ for root, dirs, files in os.walk(finalpath):
     for name in files:
         if name.endswith((".csv")):
             df = pd.read_csv(name, sep=';' , engine ='python');
-            #df += np.arange(len(df.columns))
+            df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
             n_channels = len(df.columns);
             t = np.arange(len(df.index))/Fsample
@@ -63,7 +56,12 @@ for root, dirs, files in os.walk(finalpath):
             diff_gm = Differential(df_gm,gm_channels);
             diff_ta = Differential(df_ta,ta_channels);
             diff_sol = Differential_sol(df_sol,sol_channels);
-            print("diff_ta", diff_ta)
+            #print("diff_gl" , diff_gl)
+            #print("diff_p", diff_p)
+            #print("diff_gm", diff_gm)
+            #print("diff_ta", diff_ta)
+            #print("diff_sol", diff_sol)
+
             
                   
             gl_diffchannels = diff_gl.shape[0];
@@ -83,31 +81,31 @@ for root, dirs, files in os.walk(finalpath):
             "Gastrocnemius Lateralis and Peroneus Longus with 32 channels,"
             "and Gastrocnemius Medialis, Tibialis Anterior and Soleus with 64 channels"
             
-            # " Gastrocnemium lateralis and Peroneus Longus "
-            # MAVgl_channels = []
-            # MAVp_channels = []
-            # for c in range(gl_diffchannels):
-            #     MAVgl_channels.append(fMAV(diff_gl[c,:]))
-            #     MAVp_channels.append(fMAV(diff_p[c,:]))
+            " Gastrocnemium lateralis and Peroneus Longus "
+            MAVgl_channels = []
+            MAVp_channels = []
+            for c in range(gl_diffchannels):
+                 MAVgl_channels.append(fMAV(diff_gl[c,:]))
+                 MAVp_channels.append(fMAV(diff_p[c,:]))
             
         
             
             
-            # " Gastrocnemium medialis, Tibialis Anterior and Soleus "
-            # MAVgm_channels = []
-            # MAVta_channels =[]
-            # MAVsol_channels = []
-            # for b in range(gm_diffchannels):
-            #     MAVgm_channels.append(fMAV(diff_gm[b,:]))
-            #     MAVta_channels.append(fMAV(diff_ta[b,:]))
-            #     MAVsol_channels.append(fMAV(diff_sol[b,:]))
+            " Gastrocnemium medialis, Tibialis Anterior and Soleus "
+            MAVgm_channels = []
+            MAVta_channels =[]
+            MAVsol_channels = []
+            for b in range(gm_diffchannels):
+                 MAVgm_channels.append(fMAV(diff_gm[b,:]))
+                 MAVta_channels.append(fMAV(diff_ta[b,:]))
+                 MAVsol_channels.append(fMAV(diff_sol[b,:]))
             
           
-            # "All muscles features "
-            # MAV_channels = []
-            # MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            # MAV_channels = np.array(MAV_channels);
-            # MAV_channels = np.transpose(MAV_channels);
+            "All muscles features "
+            MAV_channels = []
+            MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
+            MAV_channels = np.array(MAV_channels);
+            MAV_channels = np.transpose(MAV_channels);
             # print("MAV_channels",MAV_channels.shape)
             
             
