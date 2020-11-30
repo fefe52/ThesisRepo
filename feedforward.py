@@ -172,14 +172,6 @@ def main():
         hist = pd.DataFrame(model_history.history)
         hist['epoch'] = model_history.epoch
         
-        plt.figure()
-        sns.relplot(
-                data= hist['mean_absolute_error'], x=hist['epoch'],kind='line')
-        plt.figure()
-        sns.relplot(data=hist['val_mean_absolute_error'], x=hist['epoch'],kind='line')
-        #plt.legend()
-        plt.savefig(CWD + '/figures/SNS_trial.png')
-        plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
