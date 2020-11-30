@@ -100,8 +100,8 @@ for root, dirs, files in os.walk(finalpath):
             "for regular sEMG"
             MAVgl_channels_sEMG = []
             MAVp_channels_sEMG = []
-            MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:])
-            MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:])
+            MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:]))
+            MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:]))
             
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
             MAVgm_channels = []
