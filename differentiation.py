@@ -10,6 +10,10 @@ def Differential_sEMG(data):
     diffData = np.zeros((len(data)));
     diffData[:] = (data.iloc[:,1] - 1) - (data.iloc[:,0]);
     return diffData
+def Differential_sol_sEMG(data):
+    diffData = np.zeros((len(data)));
+    diffData[:] = (data.iloc[:,0]) - (data.iloc[:,1]-1);
+    return diffData
     
 def Differential(data,grid_size):
     lFiber = 8;

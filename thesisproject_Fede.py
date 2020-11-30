@@ -11,11 +11,11 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-from groundtruth import *
+#from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-#CWD = os.getcwd()
+CWD = os.getcwd()
 subfolders = r"data/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -56,11 +56,19 @@ for root, dirs, files in os.walk(finalpath):
             diff_gm = Differential(df_gm,gm_channels);
             diff_ta = Differential(df_ta,ta_channels);
             diff_sol = Differential_sol(df_sol,sol_channels);
-            #print("diff_gl" , diff_gl)
+            #print("diff_gl" , diff_gl[0,:]) #corrispectively signal from all array
             #print("diff_p", diff_p)
             #print("diff_gm", diff_gm)
             #print("diff_ta", diff_ta)
-            #print("diff_sol", diff_sol)
+            #print("diff_sol", diff_sol[55,:]) #corrispectively signal from all array
+            diff_gl_sEMG = Differential_sEMG(df_gl);
+            diff_p_sEMG = Differential_sEMG(df_p);
+            diff_gm_sEMG = Differential_sEMG(df_gm);
+            diff_ta_sEMG = Differential_sEMG(df_ta);
+            diff_sol_sEMG = Differential_sol_sEMG(df_sol);
+
+            #print("diff_gl_sEMG",diff_gl_sEMG)
+            #print("diff_sol_sEMG",diff_sol_sEMG)
 
             
                   
@@ -69,7 +77,8 @@ for root, dirs, files in os.walk(finalpath):
             gm_diffchannels = diff_gm.shape[0];
             ta_diffchannels = diff_ta.shape[0];
             sol_diffchannels = diff_sol.shape[0];
-            
+            print("channels gl",gl_diffchannels)
+            print("channels sol",sol_diffchannels)
             
         
            
@@ -88,8 +97,11 @@ for root, dirs, files in os.walk(finalpath):
                  MAVgl_channels.append(fMAV(diff_gl[c,:]))
                  MAVp_channels.append(fMAV(diff_p[c,:]))
             
-        
-            
+            "for regular sEMG"
+            MAVgl_channels_sEMG = []
+            MAVp_channels_sEMG = []
+            MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:])
+            MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:])
             
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
             MAVgm_channels = []
@@ -99,6 +111,15 @@ for root, dirs, files in os.walk(finalpath):
                  MAVgm_channels.append(fMAV(diff_gm[b,:]))
                  MAVta_channels.append(fMAV(diff_ta[b,:]))
                  MAVsol_channels.append(fMAV(diff_sol[b,:]))
+             
+
+            "for regular sEMG"     
+            MAVgm_channels_sEMG = []
+            MAVta_channels_sEMG =[]
+            MAVsol_channels_sEMG = []
+            MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
+            MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
+            MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
             
           
             "All muscles features "
@@ -109,7 +130,10 @@ for root, dirs, files in os.walk(finalpath):
             # print("MAV_channels",MAV_channels.shape)
             
             
-            
+            MAV_channels_sEMG = []
+            MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
+            MAV_channels_sEMG = np.array(MAV_channels_sEMG);
+            MAV_channels_sEMG = np.transpose(MAV_channels_sEMG);
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis
             # plots= diff_gl.shape[0]
