@@ -124,7 +124,7 @@ def main():
     model.add(Dense(50, activation = 'relu'))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
-    kernel_regularizer=regularizers.l2(0.001)
+    #kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
 
@@ -176,26 +176,29 @@ def main():
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
+        plt.title('MAE using MLP on HD-sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Mean abs Error.png')
+        plt.savefig(CWD + '/figures/HDEMG_MAE_studycase1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
+        plt.title('MSE using MLP on HD-sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Mean Square Error.png')
+        plt.savefig(CWD + '/figures/HDEMG_MSE_studycase1.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
+        plt.title('MLP predictions on HD-sEMG training - study case 1') 
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/Predictions vs groundtruth.png')
+        plt.savefig(CWD + '/figures/HDEMG_pred_training_studycase1.png')
         plt.show()
 
         #plot
@@ -209,8 +212,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
+        plt.title('MLP predictions on HD-sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/testpredictions.png')
+        plt.savefig(CWD + '/figures/HDEMG_pred_test_studycase1.png')
         plt.show()
     plot_history(model_history)
     
