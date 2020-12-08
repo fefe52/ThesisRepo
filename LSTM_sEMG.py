@@ -111,10 +111,10 @@ def main():
     # design network
     model = Sequential()
     model.add(LSTM(80,activation='relu',return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
-    #model.add(LSTM(50, activation='relu'))
+    #model.add(LSTM(10, activation='relu'))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.01)
+    optim_adam=keras.optimizers.Adam(lr=0.001)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
@@ -124,10 +124,10 @@ def main():
     
     
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks = [es])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -163,27 +163,30 @@ def main():
 
         plt.figure()
         plt.xlabel('Epoch')
-        plt.ylabel('Mean Abs Error')
+        plt.ylabel('Mean Abs Error') 
+        plt.title('MAE using LSTM on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/sEMG_LSTM_Mean abs Error.png')
+        plt.savefig(CWD + '/figures/sEMG_LSTM_MAE_case1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
+        plt.title('MSE using LSTM on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/sEMG_LSTM_Mean Square Error.png')
+        plt.savefig(CWD + '/figures/sEMG_LSTM_MSE_case1.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
+        plt.title('LSTM predictions on sEMG training - study case 1') 
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/sEMG_LSTM_Predictions vs groundtruth.png')
+        plt.savefig(CWD + '/figures/sEMG_LSTM_pred_training_case1.png')
         plt.show()
 
         #plot
@@ -197,8 +200,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
+        plt.title('LSTM predictions on sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/sEMG_LSTM_testpredictions.png')
+        plt.savefig(CWD + '/figures/sEMG_LSTM_testpredictions_case1.png')
         plt.show()
     plot_history(model_history)
     
