@@ -114,11 +114,11 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(400,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
-    model.add(Dropout(.2))
-    model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
-    model.add(Dense(50, activation = 'relu'))
-    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(10,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
+    #model.add(Dropout(.2))
+    #model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
+    #model.add(Dense(5, activation = 'relu'))
+    #model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
@@ -131,10 +131,10 @@ def main():
     model.summary()
 
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks=[es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -172,26 +172,29 @@ def main():
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
+        plt.title('MAE using MLP on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/sEMG_Mean abs Error.png')
+        plt.savefig(CWD + '/figures/Case1/sEMG/MLP/sEMG_MLP_MAE_studycase1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
+        plt.title('MSE using MLP on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/sEMG_Mean Square Error.png')
+        plt.savefig(CWD + '/figures/Case1/sEMG/MLP/sEMG_MLP_MSE_studycase1.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
+        plt.title('MLP predictions on sEMG training - study case 1')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/sEMG_Predictions vs groundtruth.png')
+        plt.savefig(CWD + '/figures/Case1/sEMG/MLP/sEMG_MLP_pred_training_studycase1.png')
         plt.show()
 
         #plot
@@ -205,8 +208,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
+        plt.title('MLP predictions on sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/sEMG_testpredictions.png')
+        plt.savefig(CWD + '/figures/Case1/sEMG/MLP/sEMG_MLP_pred_test_studycase1.png')
         plt.show()
     plot_history(model_history)
     
