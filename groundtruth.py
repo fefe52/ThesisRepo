@@ -42,7 +42,7 @@ TRQ_PF = 0;
 TRQ_DF= 0;
 
 CWD = os.getcwd()
-subfolders = r"data/F_test05"
+subfolders = r"data/F_tests/F_test05"
 finalpath_groundtruth = os.path.join(CWD, subfolders)
 os.chdir(finalpath_groundtruth);
 

@@ -39,18 +39,27 @@ allTRQ_DF = [];
 
 
 CWD = os.getcwd()
-subfolders = r"data/F_tests/*/"
-finalpath_groundtruth = os.path.join(CWD, subfolders)
-os.chdir(finalpath_groundtruth);
+subfolders = r"data/F_tests"
 
+finalpath_groundtruth = os.path.join(CWD, subfolders)
+#print(os.walk(finalpath_groundtruth))
+
+os.chdir(finalpath_groundtruth);
+print("www", finalpath_groundtruth)
 for root, dirs, files in os.walk(finalpath_groundtruth):
-    for name in files:   
+    if (root == finalpath_groundtruth):
+        continue
+    print("root", root)
+    print("dirs", dirs)
+    print("files", files)
+    for name in files:
         if name.endswith((".csv")):
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)
             
             
+
             Gain = 100;
             FS = 100;
             Sens = 0.002;
@@ -60,17 +69,10 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             TRQ = Torque(F,MA)
             allTRQ_DF.append[TRQ];
             
-            # strPF = "_PF_";
-            # strDF = "_DF_";
-            # if (name.find(strPF) != -1):
-            #     TRQ_PF = TRQ;
-            #     allTRQ_PF.append(TRQ_PF)
-            # if (name.find(strDF) != -1):
-            #     TRQ_DF = TRQ;
-            #     allTRQ_DF.append(TRQ_DF)
-    allTRQ_DF = np.array(allTRQ_DF);
-    out_pre_seq = allTRQ_DF.reshape((len(allTRQ_DF), 1))
-    print("size of out_seq", len(out_pre_seq))
+        
+allTRQ_DF = np.array(allTRQ_DF);
+out_pre_seq = allTRQ_DF.reshape((len(allTRQ_DF), 1))
+print("size of out_seq", len(out_pre_seq))
             
             
 
