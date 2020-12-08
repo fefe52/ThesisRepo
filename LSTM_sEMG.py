@@ -10,6 +10,7 @@ from numpy import hstack
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 import keras
+from keras.layers import Dropout
 import sklearn
 from sklearn.metrics import r2_score
 from keras.models import Sequential
@@ -107,14 +108,14 @@ def main():
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
     #print("train_features characteristics",train_features)
-    
+     
     # design network
     model = Sequential()
-    model.add(LSTM(80,activation='relu',return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
-    #model.add(LSTM(10, activation='relu'))
+    model.add(LSTM(15,activation='relu', return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    #model.add(Dropout(.2))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.001)
+    optim_adam=keras.optimizers.Adam(lr=0.01)
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
@@ -124,10 +125,10 @@ def main():
     
     
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 500)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks=[es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
