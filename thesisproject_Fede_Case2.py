@@ -16,15 +16,19 @@ from groundtruth import *
 
 "------------IMPORT AND MAIN PART-----------"
 #CWD = os.getcwd()
-subfolders = r"data/test05"
+subfolders = r"data/Tests"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
 Fsample = 2048;
-
+all_rec_HDEMG = []
+all_rec_sEMG = []
 
 #       the dataframe has the time in x-axis and channels in y-axis         #
 for root, dirs, files in os.walk(finalpath):
+    if (root == finalpath):
+        continue
+    os.chdir(root);
     for name in files:
         if name.endswith((".csv")):
             df = pd.read_csv(name, sep=';' , engine ='python');
@@ -125,15 +129,14 @@ for root, dirs, files in os.walk(finalpath):
             "All muscles features "
             MAV_channels = []
             MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            MAV_channels = np.array(MAV_channels);
-            MAV_channels = np.transpose(MAV_channels);
-            # print("MAV_channels",MAV_channels.shape)
+            all_rec_HDEMG = all_rec_HDEMG  + MAV_channels;
+            
             
             
             MAV_channels_sEMG = []
             MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
-            MAV_channels_sEMG = np.array(MAV_channels_sEMG);
-            MAV_channels_sEMG = np.transpose(MAV_channels_sEMG);
+            all_rec_sEMG = all_rec_sEMG + MAV_channels_sEMG;
+            
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis
             # plots= diff_gl.shape[0]
@@ -320,10 +323,15 @@ for root, dirs, files in os.walk(finalpath):
 
 
 
+all_rec_HDEMG = np.array(all_rec_HDEMG);
+all_rec_HDEMG = np.transpose(all_rec_HDEMG);
+print("all_rec_HDEMG",all_rec_HDEMG.shape)
 
 
 
-
+all_rec_sEMG = np.array(all_rec_sEMG);
+all_rec_sEMG = np.transpose(all_rec_sEMG);
+print("all_rec_sEMG",all_rec_sEMG.shape)
 
 
 

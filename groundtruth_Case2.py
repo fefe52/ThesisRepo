@@ -13,11 +13,11 @@ from pathlib import Path
 
 
 "----- Formula from Forza -----"
-def Forza(gt,FS,Sensibility,Gain):
+def Forza(gt,FS,Sensibility,Gain,offset):
     Val = FS/(Sensibility * Gain * 5);
     #Val = 1;
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
-    F = pd.DataFrame((gt.iloc[:] - 2.257) * Val)
+    F = pd.DataFrame((gt.iloc[:] - offset) * Val)
     return F
 
 "----- Formula Torque -----"
@@ -36,7 +36,7 @@ def Torque(F,MA):
     
 
 allTRQ_DF = [];
-
+TRQ_all = [];
 
 CWD = os.getcwd()
 subfolders = r"data/F_tests"
@@ -45,13 +45,16 @@ finalpath_groundtruth = os.path.join(CWD, subfolders)
 #print(os.walk(finalpath_groundtruth))
 
 os.chdir(finalpath_groundtruth);
-print("www", finalpath_groundtruth)
 for root, dirs, files in os.walk(finalpath_groundtruth):
     if (root == finalpath_groundtruth):
         continue
-    print("root", root)
-    print("dirs", dirs)
-    print("files", files)
+    if (root.endswith('05')):
+        offset = 2.257;
+    if (root.endswith('06')):
+        offset = 2.37;  "to check on protocol"
+        
+        
+    os.chdir(root);
     for name in files:
         if name.endswith((".csv")):
             gt = pd.read_csv(name, sep=';' , engine ='python');
@@ -63,15 +66,17 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             Gain = 100;
             FS = 100;
             Sens = 0.002;
-            F = Forza(gt,FS,Sens,Gain)
+            F = Forza(gt,FS,Sens,Gain,offset)
             MA = 0.105;                   #measured value from lab in m
             
             TRQ = Torque(F,MA)
-            allTRQ_DF.append[TRQ];
+            TRQ_all = TRQ_all + TRQ;
             
-        
-allTRQ_DF = np.array(allTRQ_DF);
-out_pre_seq = allTRQ_DF.reshape((len(allTRQ_DF), 1))
+               
+            
+            
+TRQ_all = np.array(TRQ_all);
+out_pre_seq = TRQ_all.reshape((len(TRQ_all), 1))
 print("size of out_seq", len(out_pre_seq))
             
             
