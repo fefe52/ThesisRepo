@@ -11,7 +11,7 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-from groundtruth import *
+from groundtruth_Case2 import *
 
 
 "------------IMPORT AND MAIN PART-----------"
@@ -21,15 +21,18 @@ finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
 Fsample = 2048;
-all_rec_HDEMG = []
-all_rec_sEMG = []
 
+all_rec_sEMG = []
+all_rec_HDEMG = []
+temp = []
+temp2 = []
 #       the dataframe has the time in x-axis and channels in y-axis         #
 for root, dirs, files in os.walk(finalpath):
     if (root == finalpath):
         continue
     os.chdir(root);
     for name in files:
+        print("name--", name)
         if name.endswith((".csv")):
             df = pd.read_csv(name, sep=';' , engine ='python');
             df += np.arange(len(df.columns))
@@ -81,8 +84,8 @@ for root, dirs, files in os.walk(finalpath):
             gm_diffchannels = diff_gm.shape[0];
             ta_diffchannels = diff_ta.shape[0];
             sol_diffchannels = diff_sol.shape[0];
-            print("channels gl",gl_diffchannels)
-            print("channels sol",sol_diffchannels)
+            #print("channels gl",gl_diffchannels)
+            #print("channels sol",sol_diffchannels)
             
         
            
@@ -129,13 +132,24 @@ for root, dirs, files in os.walk(finalpath):
             "All muscles features "
             MAV_channels = []
             MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            all_rec_HDEMG = all_rec_HDEMG  + MAV_channels;
+            rec_HDEMG = np.array(MAV_channels)
             
+            if (rec_HDEMG.shape[1] > 476):
+                rec_HDEMG = np.delete(rec_HDEMG,slice(475,rec_HDEMG.shape[1]-1,1),1)
+            rec_HDEMG = rec_HDEMG.transpose()
+            temp = rec_HDEMG.tolist()
+            all_rec_HDEMG = all_rec_HDEMG + temp
             
             
             MAV_channels_sEMG = []
             MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
-            all_rec_sEMG = all_rec_sEMG + MAV_channels_sEMG;
+            rec_sEMG = np.array(MAV_channels_sEMG)
+
+            if (rec_sEMG.shape[1] > 476):
+                rec_sEMG = np.delete(rec_sEMG,slice(475,rec_sEMG.shape[1]-1,1),1)
+            rec_sEMG = rec_sEMG.transpose()
+            temp2 = rec_sEMG.tolist()
+            all_rec_sEMG = all_rec_sEMG + temp2
             
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis
@@ -324,14 +338,12 @@ for root, dirs, files in os.walk(finalpath):
 
 
 all_rec_HDEMG = np.array(all_rec_HDEMG);
-all_rec_HDEMG = np.transpose(all_rec_HDEMG);
 print("all_rec_HDEMG",all_rec_HDEMG.shape)
 
 
 
 all_rec_sEMG = np.array(all_rec_sEMG);
-all_rec_sEMG = np.transpose(all_rec_sEMG);
-print("all_rec_sEMG",all_rec_sEMG.shape)
+
 
 
 

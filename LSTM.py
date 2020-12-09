@@ -18,10 +18,10 @@ from tensorflow.keras import regularizers
 from keras.layers import Dropout
 from keras.layers import LSTM
 from keras.callbacks import EarlyStopping
-from thesisproject_Fede import *
+from thesisproject_Fede_Case2 import *
 from features import fMAV
 from differentiation import *
-from groundtruth import *
+from groundtruth_Case2 import *
 from sklearn.model_selection import KFold, StratifiedKFold
 
 
@@ -51,7 +51,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = MAV_channels; 
+    in_seq = all_rec_HDEMG; 
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
     #X_scaler = preprocessing.MinMaxScaler()
     #y_scaler = preprocessing.MinMaxScaler()
@@ -171,29 +171,29 @@ def main():
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
-        plt.title('MAE using LSTM on HD-sEMG data - study case 1')
+        plt.title('MAE using LSTM on HD-sEMG data - study case 2')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/HDEMG_LSTM_MAE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_MAE_studycase2.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
-        plt.title('MSE using LSTM on HD-sEMG data - study case 1')
+        plt.title('MSE using LSTM on HD-sEMG data - study case 2')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/HDEMG_LSTM_MSE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_MSE_studycase2.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
-        plt.title('LSTM predictions on HD-sEMG training - study case 1')
+        plt.title('LSTM predictions on HD-sEMG training - study case 2')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/HDEMG_LSTM_pred_training_studycase1.png')
+        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_pred_training_studycase2.png')
         plt.show()
 
         #plot
@@ -207,9 +207,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
-        plt.title('LSTM predictions on HD-sEMG test - study case 1')
+        plt.title('LSTM predictions on HD-sEMG test - study case 2')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/HDEMG_LSTM_pred_test_studycase1.png')
+        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase2.png')
         plt.show()
     plot_history(model_history)
     

@@ -11,12 +11,12 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-from groundtruth import *
+#from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-#CWD = os.getcwd()
-subfolders = r"data/test05"
+CWD = os.getcwd()
+subfolders = r"data/Tests/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
@@ -125,9 +125,10 @@ for root, dirs, files in os.walk(finalpath):
             "All muscles features "
             MAV_channels = []
             MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
+            #print("MAV_channels", len(MAV_channels))
             MAV_channels = np.array(MAV_channels);
             MAV_channels = np.transpose(MAV_channels);
-            # print("MAV_channels",MAV_channels.shape)
+            print("MAV_channels",MAV_channels.shape)
             
             
             MAV_channels_sEMG = []
