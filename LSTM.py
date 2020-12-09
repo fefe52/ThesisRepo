@@ -53,10 +53,7 @@ def main():
     # convert to [rows, columns] structure
     in_seq = all_rec_HDEMG; 
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
-    #X_scaler = preprocessing.MinMaxScaler()
-    #y_scaler = preprocessing.MinMaxScaler()
-    #in_seq = (X_scaler.fit_transform(in_pre_seq.reshape(-1,1)))
-    #out_seq = (y_scaler.fit_transform(out_pre_seq.reshape(-1,1)))
+
 
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
