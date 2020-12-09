@@ -50,8 +50,9 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
         continue
     if (root.endswith('05')):
         offset = 2.257;
+        
     if (root.endswith('06')):
-        offset = 2.37;  "to check on protocol"
+        offset = 2.383;  "to check on protocol"
         
         
     os.chdir(root);
@@ -81,18 +82,13 @@ TRQ_all = np.array(TRQ_all);
 out_pre_seq = TRQ_all.reshape((len(TRQ_all), 1))
 print("size of out_seq", len(out_pre_seq))
             
-            
-
-
-
-
-            # "------plot of the Force-------"
-            # figure() 
-            # plt.plot(F.iloc[:])
-            # plt.title("Force applied in Newton")
-            # plt.ylabel("N")
-            # plt.savefig(CWD + "/figures/Force.png")
-            # plt.show()
+"------plot of the Force-------"
+figure() 
+plt.plot(TRQ_all)
+plt.title("torque all")
+plt.ylabel("N*m")
+# plt.savefig(CWD + "/figures/Force.png")
+plt.show()
             
             # #pd.set_option('precision',10)
             # #"------plot of the Torque------"
