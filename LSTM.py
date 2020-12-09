@@ -84,11 +84,11 @@ def main():
     features_size = int(len(X)*0.50)
     #test_size = int(len(X)*0.100)
     target_size = int(len(Y)*0.50)
-    train_features, test_features = X[0:features_size], X[features_size:len(X)]
-    val_size = int(len(test_features)*0.60)
-    test_features, val_features = test_features[0:val_size],test_features[val_size:len(test_features)] 
-    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
-    test_target, val_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
+    train_features, test_features = X[0:features_size], X[features_size+1:len(X)]
+    val_size = int(len(test_features)*0.50)
+    test_features, val_features = test_features[0:val_size],test_features[val_size+1:len(test_features)]
+    train_target, test_target = Y[0:target_size], Y[target_size+1:len(Y)]
+    test_target, val_target = test_target[0:val_size], test_target[val_size+1:len(test_target)] 
 
     #reshape input to be 3D[samples,timesteps,features]
     
@@ -107,7 +107,8 @@ def main():
     print("train_target",len(train_target))
     print("validation_target",len(val_target))
     print("test_target",len(test_target))
-
+    print("test_feaures",len(test_features))
+    print("val_feat",len(val_features))
     print("----------")
     print("train_features", len(train_features))
     # Normalize data
@@ -117,8 +118,9 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(100,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(80,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
     model.add(LSTM(10, activation='relu',kernel_regularizer=regularizers.l2(0.001)))
+    #model.add(LSTM(4, activation='relu'))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
@@ -131,10 +133,10 @@ def main():
     
     
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [es])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
