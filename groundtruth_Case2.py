@@ -70,6 +70,8 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             MA = 0.105;                   #measured value from lab in m
             
             TRQ = Torque(F,MA)
+            if (len(TRQ) > 476):
+                del TRQ[476:len(TRQ)]
             TRQ_all = TRQ_all + TRQ;
             
                
