@@ -1,5 +1,5 @@
 "********* KTH THESIS PROJECT FEDERICA ARESU **********"
-""" STUDY CASE 2 """
+""" STUDY CASE 3 """
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,12 +11,12 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth_Case2 import *
+from groundtruth_Case3 import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
-subfolders = r"data/Tests"
+#CWD = os.getcwd()
+subfolders = r"data/Tests/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
@@ -28,12 +28,6 @@ temp = []
 temp2 = []
 #       the dataframe has the time in x-axis and channels in y-axis         #
 for root, dirs, files in os.walk(finalpath):
-    if (root == finalpath):
-        continue
-    if (root.endswith('05')):
-        continue
-    if (root.endswith('03')):
-        continue
     os.chdir(root);
     for name in files:
         print("name--", name)
