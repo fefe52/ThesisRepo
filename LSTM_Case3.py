@@ -78,9 +78,9 @@ def main():
 
     # Split of the data  
     #using a split of 80-(40-60)
-    features_size = int(len(X)*0.80)
+    features_size = int(len(X)*0.65)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.80)
+    target_size = int(len(Y)*0.65)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
