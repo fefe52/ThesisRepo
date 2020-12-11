@@ -56,7 +56,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = all_rec_sEMG; 
+    in_seq = all_rec_HDEMG;
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
     #X_scaler = preprocessing.MinMaxScaler()
     #y_scaler = preprocessing.MinMaxScaler()
@@ -124,7 +124,9 @@ def main():
     model.add(Dropout(.2))
     model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
     model.add(Dense(50, activation = 'relu'))
-    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(50, activation = 'relu'))
+    #model.add(Dense(10, activation = 'relu'))
+    #model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     #kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
