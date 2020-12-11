@@ -30,10 +30,16 @@ temp2 = []
 for root, dirs, files in os.walk(finalpath):
     if (root == finalpath):
         continue
+<<<<<<< HEAD
     if (root.endswith('05')):
         continue
     if (root.endswith('03')):
         continue
+=======
+    #if (root.endswith('06')):
+     #       print("catched it")
+      #      continue
+>>>>>>> 8ba000097994d77b5e7263ac30df60edb83ccf0e
     os.chdir(root);
     for name in files:
         print("name--", name)
@@ -140,20 +146,21 @@ for root, dirs, files in os.walk(finalpath):
             print("test size", rec_HDEMG.shape)
             if (rec_HDEMG.shape[1] > 476):
                 rec_HDEMG = np.delete(rec_HDEMG,slice(475,rec_HDEMG.shape[1]-1,1),1)
+            
             rec_HDEMG = rec_HDEMG.transpose()
             temp = rec_HDEMG.tolist()
             all_rec_HDEMG = all_rec_HDEMG + temp
             
             
-            MAV_channels_sEMG = []
-            MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
-            rec_sEMG = np.array(MAV_channels_sEMG)
+            #MAV_channels_sEMG = []
+            #MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
+            #rec_sEMG = np.array(MAV_channels_sEMG)
 
-            if (rec_sEMG.shape[1] > 476):
-                rec_sEMG = np.delete(rec_sEMG,slice(475,rec_sEMG.shape[1]-1,1),1)
-            rec_sEMG = rec_sEMG.transpose()
-            temp2 = rec_sEMG.tolist()
-            all_rec_sEMG = all_rec_sEMG + temp2
+            #if (rec_sEMG.shape[1] > 476):
+             #   rec_sEMG = np.delete(rec_sEMG,slice(475,rec_sEMG.shape[1]-1,1),1)
+            #rec_sEMG = rec_sEMG.transpose()
+            #temp2 = rec_sEMG.tolist()
+            #all_rec_sEMG = all_rec_sEMG + temp2
             
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis
