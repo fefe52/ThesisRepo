@@ -24,7 +24,7 @@ from sklearn.pipeline import Pipeline
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 from tensorflow.keras import regularizers
-import seaborn as sns
+from matplotlib.font_manager import FontProperties
 
 from thesisproject_Fede_Case3 import *
 from features import fMAV
@@ -176,6 +176,8 @@ def main():
         hist = pd.DataFrame(model_history.history)
         hist['epoch'] = model_history.epoch
         
+        fontP = FontProperties()
+        fontP.set_size('xx-small')
 
         plt.figure()
         plt.xlabel('Epoch')
@@ -217,7 +219,7 @@ def main():
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
         plt.title('MLP predictions on HD-sEMG test - study case 3')
-        plt.legend(['actual target','predictated values'])
+        plt.legend(['actual target','predictated values'], prop = fontP)
         plt.savefig(CWD + '/figures/Case3/HDEMG/MLP/HDEMG_pred_test_studycase3.png')
         plt.show()
     plot_history(model_history)
