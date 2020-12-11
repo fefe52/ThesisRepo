@@ -28,7 +28,7 @@ temp = []
 temp2 = []
 #       the dataframe has the time in x-axis and channels in y-axis         #
 for root, dirs, files in os.walk(finalpath):
-    os.chdir(root);
+    
     for name in files:
         print("name--", name)
         if name.endswith((".csv")):

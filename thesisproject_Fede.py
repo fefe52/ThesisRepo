@@ -16,7 +16,7 @@ from features import *
 
 "------------IMPORT AND MAIN PART-----------"
 CWD = os.getcwd()
-subfolders = r"data/Tests/test05"
+subfolders = r"data/Tests/test10"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
@@ -67,9 +67,11 @@ for root, dirs, files in os.walk(finalpath):
             diff_ta_sEMG = Differential_sEMG(df_ta);
             diff_sol_sEMG = Differential_sol_sEMG(df_sol);
 
-            #print("diff_gl_sEMG",diff_gl_sEMG)
-            #print("diff_sol_sEMG",diff_sol_sEMG)
-
+            print("diff_gl_sEMG",diff_gl_sEMG)
+            print("diff_sol_sEMG",diff_sol_sEMG)
+            print("diff_ta_sEMG", diff_ta_sEMG)
+            print("diff_p_sEMG", diff_p_sEMG)
+            print("gm_sEMG", diff_gm_sEMG)
             
                   
             gl_diffchannels = diff_gl.shape[0];

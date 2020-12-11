@@ -78,9 +78,9 @@ def main():
 
     # Split of the data  
     #using a split of 80-(40-60)
-    features_size = int(len(X)*0.80)
+    features_size = int(len(X)*0.70)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.80)
+    target_size = int(len(Y)*0.70)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
@@ -115,7 +115,7 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(128,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
     #model.add(LSTM(64, activation='relu', return_sequences=True))
     model.add(LSTM(64, return_sequences = True, activation='relu'))
     model.add(LSTM(64, activation = 'relu'))

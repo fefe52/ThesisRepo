@@ -46,16 +46,16 @@ finalpath_groundtruth = os.path.join(CWD, subfolders)
 
 os.chdir(finalpath_groundtruth);
 for root, dirs, files in os.walk(finalpath_groundtruth):
-    if ("AN15" in root):
-        offset = 2.257;
-    if ("AN30" in root):
-        offset = 2.315;
-    if ("AP10" in root):
-        offset = 2.404;  
-        
-    os.chdir(root);
+    
     for name in files:
+        print(name);
         if name.endswith((".csv")):
+            if ("AN15" in name):
+                offset = 2.257;
+            if ("AN30" in name):
+                offset = 2.315;
+            if ("AP10" in name):
+                offset = 2.404;
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)

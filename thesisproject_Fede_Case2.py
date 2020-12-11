@@ -11,11 +11,11 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth_Case2 import *
+from groundtruth_Case2 import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
+#CWD = os.getcwd()
 subfolders = r"data/Tests"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
@@ -30,16 +30,16 @@ temp2 = []
 for root, dirs, files in os.walk(finalpath):
     if (root == finalpath):
         continue
-<<<<<<< HEAD
-    if (root.endswith('05')):
-        continue
-    if (root.endswith('03')):
-        continue
-=======
+
+    #if (root.endswith('05')):
+     #   continue
+    #if (root.endswith('03')):
+     #   continue
+
     #if (root.endswith('06')):
      #       print("catched it")
       #      continue
->>>>>>> 8ba000097994d77b5e7263ac30df60edb83ccf0e
+
     os.chdir(root);
     for name in files:
         print("name--", name)

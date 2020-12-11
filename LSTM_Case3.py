@@ -18,7 +18,7 @@ from tensorflow.keras import regularizers
 from keras.layers import Dropout
 from keras.layers import LSTM
 from keras.callbacks import EarlyStopping
-from thesisproject_Fede_Case2 import *
+from thesisproject_Fede_Case3 import *
 from features import fMAV
 from differentiation import *
 from groundtruth_Case3 import *
@@ -115,7 +115,7 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(128,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
     #model.add(LSTM(64, activation='relu', return_sequences=True))
     model.add(LSTM(64, return_sequences = True, activation='relu'))
     model.add(LSTM(64, activation = 'relu'))
