@@ -78,14 +78,14 @@ def main():
 
     # Split of the data  
     #using a split of 80-(40-60)
-    features_size = int(len(X)*0.67)
+    features_size = int(len(X)*0.80)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.67)
-    train_features, test_features = X[0:features_size], X[features_size+1:len(X)]
-    val_size = int(len(test_features)*0.60)
-    test_features, val_features = test_features[0:val_size],test_features[val_size+1:len(test_features)]
-    train_target, test_target = Y[0:target_size], Y[target_size+1:len(Y)]
-    test_target, val_target = test_target[0:val_size], test_target[val_size+1:len(test_target)] 
+    target_size = int(len(Y)*0.80)
+    train_features, test_features = X[0:features_size], X[features_size:len(X)]
+    val_size = int(len(test_features)*0.40)
+    val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
+    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
+    val_target, test_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
 
     #reshape input to be 3D[samples,timesteps,features]
     
