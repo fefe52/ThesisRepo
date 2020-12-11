@@ -55,7 +55,7 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             if ("AN30" in name):
                 offset = 2.315;
             if ("AP10" in name):
-                offset = 2.404;
+                offset = 2.292;
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)
@@ -85,7 +85,7 @@ figure()
 plt.plot(TRQ_all)
 plt.title("torque all")
 plt.ylabel("N*m")
-# plt.savefig(CWD + "/figures/Force.png")
+plt.savefig(CWD + "/figures/allTorque_Case3.png")
 plt.show()
             
             # #pd.set_option('precision',10)
