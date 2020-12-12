@@ -1,30 +1,35 @@
-"********* KTH THESIS PROJECT FEDERICA ARESU **********"
-"LSTM Case 3"
-from math import sqrt
-from numpy import concatenate
-from matplotlib import pyplot
-from pandas import read_csv
-from pandas import DataFrame
-from pandas import concat
+"---Project thesis Federica Aresu----"
+" for tradition sEMG - CASE 3"
+### IMPLEMENTING REGRESSION MODELS ####
+import os
+import csv
+import pandas as pd
+import numpy as np
 from numpy import hstack
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
 import keras
 import sklearn
-from sklearn.metrics import r2_score
 from keras.models import Sequential
 from keras.layers import Dense
-from tensorflow.keras import regularizers
 from keras.layers import Dropout
-from keras.layers import LSTM
+from keras.layers import Activation
+from keras.wrappers.scikit_learn import KerasRegressor
+from sklearn.metrics import r2_score
+from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import KFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 from keras.callbacks import EarlyStopping
+from keras.callbacks import ModelCheckpoint
+from tensorflow.keras import regularizers
+import seaborn as sns
+
 from thesisproject_Fede_Case3 import *
 from features import fMAV
 from differentiation import *
 from groundtruth_Case3 import *
-from sklearn.model_selection import KFold, StratifiedKFold
-
-
 
 
 def main():
@@ -51,9 +56,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = all_rec_HDEMG; 
-    #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
-
+    in_seq = all_rec_sEMG; 
 
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
@@ -69,15 +72,16 @@ def main():
     #	print(X[i], Y[i])
 
     # Flatten input and output
-    #n_input = X.shape[1] * X.shape[2]    
+    n_input = X.shape[1] * X.shape[2]    
+
+    X = X.reshape((X.shape[0], n_input))
+    print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
+
+
+    # Split of the data
+    #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
-    #X = X.reshape((X.shape[0], n_input))
-    #X_LSTM = X.reshape((
-    #print("X shape",X.shape) ### The shape is now number of elements x (n*split input * channels)
-
-
-    # Split of the data  
-    #using a split of 80-(40-60)
+    #using a split of 60-(40-60)
     features_size = int(len(X)*0.65)
     #test_size = int(len(X)*0.100)
     target_size = int(len(Y)*0.65)
@@ -86,10 +90,7 @@ def main():
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
     val_target, test_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
-
-    #reshape input to be 3D[samples,timesteps,features]
     
-
     figure()
     plt.plot(Y)
     plt.savefig(CWD + '/figures/all target.png')
@@ -104,40 +105,37 @@ def main():
     print("train_target",len(train_target))
     print("validation_target",len(val_target))
     print("test_target",len(test_target))
-    print("test_features",len(test_features))
-    print("val_feat",len(val_features))
+
     print("----------")
     print("train_features", len(train_features))
     # Normalize data
     #train_features = train_features.describe()
     #train_features = train_features.transpose()
     #print("train_features characteristics",train_features)
-    
-    # design network
+
+    # Create the model
     model = Sequential()
-    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    #model.add(Dropout(0.2))
-    model.add(LSTM(64, activation='relu', return_sequences=True))
-    model.add(LSTM(64, return_sequences = True, activation='relu'))
-    model.add(LSTM(32, activation = 'relu'))
-    #model.add(Dropout(0.2))
-    
+    model.add(Dense(10,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
+    #model.add(Dropout(.2))
+    #model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
+    #model.add(Dense(5, activation = 'relu'))
+    #model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
+    kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
 
     # Configure the model and start training
-    
+    #we use MSE because it is a regression problem
     #the optimizer shows how we update the weights
     model.compile(loss='mean_squared_error', optimizer=optim_adam, metrics=['mean_absolute_error', 'mean_squared_error'])
     model.summary()
-    
-    
+
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks=[es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -171,37 +169,35 @@ def main():
         hist = pd.DataFrame(model_history.history)
         hist['epoch'] = model_history.epoch
         
-         
         fontP = FontProperties()
         fontP.set_size('xx-small')
         
-
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
-        plt.title('MAE using LSTM on HD-sEMG data - study case 3')
+        plt.title('MAE using MLP on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_MAE_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/MLP/sEMG_MLP_MAE_studycase3.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
-        plt.title('MSE using LSTM on HD-sEMG data - study case 3')
+        plt.title('MSE using MLP on sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_MSE_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/MLP/sEMG_MLP_MSE_studycase3.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
-        plt.title('LSTM predictions on HD-sEMG training - study case 3')
+        plt.title('MLP predictions on sEMG training - study case 1')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_pred_training_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/MLP/sEMG_MLP_pred_training_studycase3.png')
         plt.show()
 
         #plot
@@ -215,13 +211,17 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
-        plt.title('LSTM predictions on HD-sEMG test - study case 3')
-        plt.legend(['actual target','predictated values'], prep=fontP)
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase3.png')
+        plt.title('MLP predictions on sEMG test - study case 1')
+        plt.legend(['actual target','predictated values'], prop = fontP)
+        plt.savefig(CWD + '/figures/Case3/sEMG/MLP/sEMG_MLP_pred_test_studycase3.png')
         plt.show()
     plot_history(model_history)
     
 if __name__ == "__main__":
     main()
     
+
+
+
+
 

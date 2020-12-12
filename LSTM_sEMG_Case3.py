@@ -51,7 +51,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = all_rec_HDEMG; 
+    in_seq = all_rec_sEMG; 
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
 
 
@@ -176,32 +176,33 @@ def main():
         fontP.set_size('xx-small')
         
 
+ 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
-        plt.title('MAE using LSTM on HD-sEMG data - study case 3')
+        plt.title('MAE using LSTM on sEMG data - study case 3')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_MAE_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/LSTM/sEMG_LSTM_MAE_studycase3.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
-        plt.title('MSE using LSTM on HD-sEMG data - study case 3')
+        plt.title('MSE using LSTM on sEMG data - study case 3')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_MSE_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/LSTM/sEMG_LSTM_MSE_studycase3.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
-        plt.title('LSTM predictions on HD-sEMG training - study case 3')
+        plt.title('LSTM predictions on sEMG training - study case 3')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_pred_training_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/LSTM/sEMG_LSTM_pred_training_studycase3.png')
         plt.show()
 
         #plot
@@ -215,9 +216,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
-        plt.title('LSTM predictions on HD-sEMG test - study case 3')
+        plt.title('LSTM predictions on sEMG test - study case 3')
         plt.legend(['actual target','predictated values'], prep=fontP)
-        plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase3.png')
+        plt.savefig(CWD + '/figures/Case3/sEMG/LSTM/sEMG_LSTM_pred_test_studycase3.png')
         plt.show()
     plot_history(model_history)
     

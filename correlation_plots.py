@@ -1,7 +1,8 @@
 "MASTER THESIS FEDERICA ARESU"
 "CORRELATION PLOTS"
 from differentiation import *
-#from features import *
+from features import *
+from groundtruth import out_pre_seq
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -9,6 +10,8 @@ import os
 import csv
 from matplotlib.pyplot import figure
 import time
+import seaborn as sns
+
 "------------IMPORT AND MAIN PART-----------"
 CWD = os.getcwd()
 subfolders = r"data/Tests/test06"
@@ -75,42 +78,33 @@ for root, dirs, files in os.walk(finalpath):
 
            
             
-            # n = len(diff_gl_sEMG);
-            # mav = []
-            # len_window = 1024;
-            # for i in range(0,n,512):
-            #      if n in range(i,(i+len_window)):
-            #          break
-            #      z = y[i:(i+len_window)];
-            # mav.append(np.sum(abs(z))/len(z))
-            # mav = np.array(mav);
+         
             
             # "-------Features-------"
 
             # "Gastrocnemius Lateralis and Peroneus Longus with 32 channels,"
             # "and Gastrocnemius Medialis, Tibialis Anterior and Soleus with 64 channels"
             
-            # " Gastrocnemium lateralis and Peroneus Longus "
-         
+            " Gastrocnemium lateralis and Peroneus Longus "
             
-            # "for regular sEMG"
-            # MAVgl_channels_sEMG = []
-            # MAVp_channels_sEMG = []
-            # MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:]))
-            # MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:]))
+            "for regular sEMG"
+            MAVgl_channels_sEMG = []
+            MAVp_channels_sEMG = []
+            MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:]))
+            MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:]))
             
-            # " Gastrocnemium medialis, Tibialis Anterior and Soleus "
+            " Gastrocnemium medialis, Tibialis Anterior and Soleus "
            
 
-            # "for regular sEMG"     
-            # MAVgm_channels_sEMG = []
-            # MAVta_channels_sEMG =[]
-            # MAVsol_channels_sEMG = []
-            # MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
-            # MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
-            # MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
+            "for regular sEMG"     
+            MAVgm_channels_sEMG = []
+            MAVta_channels_sEMG =[]
+            MAVsol_channels_sEMG = []
+            MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
+            MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
+            MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
             
-            # "first trial"
-            # MAV_channels_sEMG = np.array(MAV_channels_sEMG);
-            # MAV_channels_sEMG = np.transpose(MAV_channels_sEMG);
+            "first trial"
+            MAV_channels_sEMG = np.array(MAV_channels_sEMG);
+            
      
