@@ -53,18 +53,18 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
         offset = 2.335; 
     if (root.endswith('05')):
         offset = 2.257;
+        
     if (root.endswith('06')):
-        offset = 2.383;
-    if (root.endswith('07')):
-        offset = 2.367;
+        offset = 2.383;  "to check on protocol"
         
         
     os.chdir(root);
     for name in files:
         if name.endswith((".csv")):
+            
             if ("AN30" in name):
                 continue
-            if ("AP10" in name):
+            if("AP10" in name):
                 continue
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
@@ -79,8 +79,8 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             MA = 0.105;                   #measured value from lab in m
             
             TRQ = Torque(F,MA)
-            if (len(TRQ) > 476):
-                del TRQ[476:len(TRQ)]
+            if (len(TRQ) > 190):
+                del TRQ[190:len(TRQ)]
             TRQ_all = TRQ_all + TRQ;
             
                

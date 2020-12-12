@@ -148,8 +148,8 @@ for root, dirs, files in os.walk(finalpath):
             MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
             rec_HDEMG = np.array(MAV_channels)
             print("test size", rec_HDEMG.shape)
-            if (rec_HDEMG.shape[1] > 476):
-                rec_HDEMG = np.delete(rec_HDEMG,slice(475,rec_HDEMG.shape[1]-1,1),1)
+            if (rec_HDEMG.shape[1] > 190):
+                rec_HDEMG = np.delete(rec_HDEMG,slice(189,rec_HDEMG.shape[1]-1,1),1)
             
             rec_HDEMG = rec_HDEMG.transpose()
             temp = rec_HDEMG.tolist()
