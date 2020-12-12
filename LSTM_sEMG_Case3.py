@@ -115,11 +115,10 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(16,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(10,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
     #model.add(LSTM(32,activation = 'relu'))
      
-    model.add(Dense(n_steps_out))
-    
+     
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
