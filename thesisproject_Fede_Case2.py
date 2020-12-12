@@ -42,8 +42,12 @@ for root, dirs, files in os.walk(finalpath):
 
     os.chdir(root);
     for name in files:
-        print("name--", name)
         if name.endswith((".csv")):
+            if ("AN30" in name):
+                continue
+            if ("AP10" in name):
+                continue
+            print ("name file" , name)
             df = pd.read_csv(name, sep=';' , engine ='python');
             df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
