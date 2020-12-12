@@ -87,9 +87,9 @@ def main():
     #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
     
     #using a split of 60-(40-60)
-    features_size = int(len(X)*0.65)
+    features_size = int(len(X)*0.75)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.65)
+    target_size = int(len(Y)*0.75)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
