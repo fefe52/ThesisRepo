@@ -23,7 +23,7 @@ from features import fMAV
 from differentiation import *
 from groundtruth_Case3 import *
 from sklearn.model_selection import KFold, StratifiedKFold
-
+from matplotlib.font_manager import FontProperties
 
 
 
@@ -115,12 +115,10 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    #model.add(Dropout(0.2))
-    model.add(LSTM(64, activation='relu', return_sequences=True))
-    model.add(LSTM(64, return_sequences = True, activation='relu'))
-    model.add(LSTM(32, activation = 'relu'))
-    #model.add(Dropout(0.2))
+    model.add(LSTM(15,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    #model.add(LSTM(32,activation = 'relu'))
+    
+    model.add(Dense(n_steps_out))
     
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
@@ -137,7 +135,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -217,7 +215,7 @@ def main():
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
         plt.title('LSTM predictions on sEMG test - study case 3')
-        plt.legend(['actual target','predictated values'], prep=fontP)
+        plt.legend(['actual target','predictated values'], prop=fontP)
         plt.savefig(CWD + '/figures/Case3/sEMG/LSTM/sEMG_LSTM_pred_test_studycase3.png')
         plt.show()
     plot_history(model_history)

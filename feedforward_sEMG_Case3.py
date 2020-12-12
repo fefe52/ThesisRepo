@@ -24,8 +24,7 @@ from sklearn.pipeline import Pipeline
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 from tensorflow.keras import regularizers
-import seaborn as sns
-
+from matplotlib.font_manager import FontProperties
 from thesisproject_Fede_Case3 import *
 from features import fMAV
 from differentiation import *
@@ -118,8 +117,10 @@ def main():
     model.add(Dense(10,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
     #model.add(Dropout(.2))
     #model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
-    #model.add(Dense(5, activation = 'relu'))
-    #model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
@@ -132,10 +133,10 @@ def main():
     model.summary()
 
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 200)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks=[es])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch

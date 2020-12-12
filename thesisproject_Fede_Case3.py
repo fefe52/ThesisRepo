@@ -341,7 +341,7 @@ print("all_rec_HDEMG",all_rec_HDEMG.shape)
 
 
 all_rec_sEMG = np.array(all_rec_sEMG);
-
+print("all_rec_sEMG", all_rec_sEMG.shape)
 
 
 
