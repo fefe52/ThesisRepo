@@ -55,7 +55,10 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
         offset = 2.257;
         
     if (root.endswith('06')):
-        offset = 2.383;  "to check on protocol"
+        offset = 2.383;  
+    
+    if (root.endswith('07')):
+        offset = 2.367;  
         
         
     os.chdir(root);

@@ -28,21 +28,18 @@ def fMAV(y):
     mav = np.array(mav);
     return mav
  
-# "--------------WL-------------------"
-
-# # Waveform length function
-# def fWL(y):
-#     temp_wl = []
-#     n = len(y);
-#     wl = []
-#     for i in range(1,n):
-#         temp_wl.append(abs(y[i] - y[i-1]))
-#     for i in range(n):
-#         z = temp_wl[(i*2048):((i+1)*2048)]
-#         wl.append(sum(z))
-#         if i == (118):
-#             break
-#     return wl
+"--------------WL-------------------"
+# Waveform length function
+def fWL(y):
+    n = len(y);
+    wl = []
+    len_window = 1024;
+    for i in range(0,n,512):
+        if n in range(i,(i+len_window)):
+            break
+        z = y[i:(i+len_window)];
+        wl.append(np.sum(abs(z[i+1] - z[i])))   
+    return wl
     
     
 # #remember the sum
