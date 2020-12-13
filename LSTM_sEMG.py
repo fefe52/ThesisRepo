@@ -50,7 +50,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = MAVWL_channels_sEMG; 
+    in_seq = MAVWLRMS_channels_sEMG; 
 
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
@@ -112,7 +112,8 @@ def main():
     # design network
     model = Sequential()
     model.add(LSTM(15,activation='relu', return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    model.add(LSTM(5, activation = 'relu'))
+    model.add(LSTM(5, activation = 'relu', return_sequences = True))
+    model.add(LSTM(5,activation='relu'))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)

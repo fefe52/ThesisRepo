@@ -157,8 +157,7 @@ for root, dirs, files in os.walk(finalpath):
             
             MAVWLRMS_channels_sEMG = []
             #WL_channels_sEMG = []
-            MAVWLRMS_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG 
-            + WLta_channels_sEMG + WLsol_channels_sEMG + RMSgl_channels_sEMG + RMSgm_channels_sEMG + RMSp_channels_sEMG + RMSsol_channels_sEMG  + RMSta_channels_sEMG;
+            MAVWLRMS_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG + RMSgl_channels_sEMG + RMSgm_channels_sEMG + RMSp_channels_sEMG + RMSsol_channels_sEMG  + RMSta_channels_sEMG;
             MAVWLRMS_channels_sEMG = np.array(MAVWLRMS_channels_sEMG);
             MAVWLRMS_channels_sEMG = np.transpose(MAVWLRMS_channels_sEMG);
             print("size MAVWLRMS", MAVWLRMS_channels_sEMG.shape)
