@@ -103,13 +103,17 @@ for root, dirs, files in os.walk(finalpath):
             "for regular sEMG"
             MAVgl_channels_sEMG = []
             WLgl_channels_sEMG = []
+            RMSgl_channels_sEMG = []
             MAVp_channels_sEMG = [] 
             WLp_channels_sEMG = []
+            RMSp_channels_sEMG =[]
             
             MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:]))
             WLgl_channels_sEMG.append(fWL(diff_gl_sEMG[:]))
+            RMSgl_channels_sEMG.append(fRMS(diff_gl_sEMG[:]))
             MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:]))
             WLp_channels_sEMG.append(fWL(diff_p_sEMG[:]))
+            RMSp_channels_sEMG.append(fRMS(diff_p_sEMG[:]))
             
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
             MAVgm_channels = []
@@ -124,16 +128,22 @@ for root, dirs, files in os.walk(finalpath):
             "for regular sEMG"     
             MAVgm_channels_sEMG = []
             WLgm_channels_sEMG = []
+            RMSgm_channels_sEMG = []
             MAVta_channels_sEMG = []
             WLta_channels_sEMG = []
+            RMSta_channels_sEMG = []
             MAVsol_channels_sEMG = []
             WLsol_channels_sEMG = []
+            RMSsol_channels_sEMG = []
             MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
             WLgm_channels_sEMG.append(fWL(diff_gm_sEMG[:]))
+            RMSgm_channels_sEMG.append(fRMS(diff_gm_sEMG[:]))
             MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
             WLta_channels_sEMG.append(fWL(diff_ta_sEMG[:]))
+            RMSta_channels_sEMG.append(fRMS(diff_ta_sEMG[:]))
             MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
             WLsol_channels_sEMG.append(fWL(diff_sol_sEMG[:]))
+            RMSsol_channels_sEMG.append(fRMS(diff_sol_sEMG[:]))
             
           
             "All muscles features "
@@ -145,16 +155,18 @@ for root, dirs, files in os.walk(finalpath):
             print("MAV_channels",MAV_channels.shape)
             
             
-            MAVWL_channels_sEMG = []
-            WL_channels_sEMG = []
-            MAVWL_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
-            MAVWL_channels_sEMG = np.array(MAVWL_channels_sEMG);
-            MAVWL_channels_sEMG = np.transpose(MAVWL_channels_sEMG);
-            print("size MAVWL", MAVWL_channels_sEMG.shape)
-            
-            WL_channels_sEMG = WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
-            WL_channels_sEMG = np.array(WL_channels_sEMG);
-            WL_channels_sEMG = np.transpose(WL_channels_sEMG);
+            MAVWLRMS_channels_sEMG = []
+            #WL_channels_sEMG = []
+            MAVWLRMS_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG 
+            + WLta_channels_sEMG + WLsol_channels_sEMG + RMSgl_channels_sEMG + RMSgm_channels_sEMG + RMSp_channels_sEMG + RMSsol_channels_sEMG  + RMSta_channels_sEMG;
+            MAVWLRMS_channels_sEMG = np.array(MAVWLRMS_channels_sEMG);
+            MAVWLRMS_channels_sEMG = np.transpose(MAVWLRMS_channels_sEMG);
+            print("size MAVWLRMS", MAVWLRMS_channels_sEMG.shape)
+            print("WL_gl", WLgl_channels_sEMG)
+            print("RMS_gl", RMSgl_channels_sEMG)
+            #WL_channels_sEMG = WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
+            #WL_channels_sEMG = np.array(WL_channels_sEMG);
+            #WL_channels_sEMG = np.transpose(WL_channels_sEMG);
             
 
 

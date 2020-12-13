@@ -40,15 +40,18 @@ def fWL(y):
         wl.append(np.sum(abs(y[i+1] - y[i])))   
     return wl
     
+
+"--------------RMS-------------------"
+# Root Mean Square
+def fRMS(y):
+    n = len(y);
+    rms = []
+    len_window = 1024;
+    for i in range(0,n,512):
+        if n in range(i+1,(i+1+len_window)):
+            break
+        z = y[i:(i+len_window)];
+        rms.append(np.sqrt(np.sum(z**2)/len(z))) 
+    return rms
     
-# #remember the sum
-# "------------WAMP------------------"
-# # Willison Amplitude function
-# def fWAMP(y,thres):
-#     wamp = 0;
-#     n = len(y);
-#     for i in range(n-1):
-#         if abs(y[i] - y[i+1])>thres:
-#             wamp = wamp + 1;
-#     return wamp
 
