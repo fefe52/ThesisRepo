@@ -115,8 +115,9 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(100,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    model.add(LSTM(10, return_sequences, activation='relu'))
+    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(10,return_sequences=True, activation='relu'))
+    model.add(LSTM(10,activation='relu'))
     model.add(Dense(n_steps_out))
     
     
