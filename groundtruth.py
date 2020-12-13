@@ -49,6 +49,10 @@ os.chdir(finalpath_groundtruth);
 for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
+            if ("AN30" in name):
+                continue
+            if("AP10" in name):
+                continue
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)

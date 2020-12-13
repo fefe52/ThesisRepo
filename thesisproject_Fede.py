@@ -11,12 +11,12 @@ from pathlib import Path
 
 from differentiation import *
 from features import *
-#from groundtruth import *
+from groundtruth import *
 
 
 "------------IMPORT AND MAIN PART-----------"
-CWD = os.getcwd()
-subfolders = r"data/Tests/test10"
+#CWD = os.getcwd()
+subfolders = r"data/Tests/test05"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
@@ -25,8 +25,13 @@ Fsample = 2048;
 
 #       the dataframe has the time in x-axis and channels in y-axis         #
 for root, dirs, files in os.walk(finalpath):
+    print(finalpath)
     for name in files:
         if name.endswith((".csv")):
+            if ("AN30" in name):
+                continue
+            if("AP10" in name):
+                continue
             df = pd.read_csv(name, sep=';' , engine ='python');
             df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
@@ -67,11 +72,7 @@ for root, dirs, files in os.walk(finalpath):
             diff_ta_sEMG = Differential_sEMG(df_ta);
             diff_sol_sEMG = Differential_sol_sEMG(df_sol);
 
-            print("diff_gl_sEMG",diff_gl_sEMG)
-            print("diff_sol_sEMG",diff_sol_sEMG)
-            print("diff_ta_sEMG", diff_ta_sEMG)
-            print("diff_p_sEMG", diff_p_sEMG)
-            print("gm_sEMG", diff_gm_sEMG)
+        
             
                   
             gl_diffchannels = diff_gl.shape[0];
@@ -129,7 +130,9 @@ for root, dirs, files in os.walk(finalpath):
             WLsol_channels_sEMG = []
             MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
             WLgm_channels_sEMG.append(fWL(diff_gm_sEMG[:]))
+            MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
             WLta_channels_sEMG.append(fWL(diff_ta_sEMG[:]))
+            MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
             WLsol_channels_sEMG.append(fWL(diff_sol_sEMG[:]))
             
           
@@ -142,16 +145,17 @@ for root, dirs, files in os.walk(finalpath):
             print("MAV_channels",MAV_channels.shape)
             
             
-            MAV_channels_sEMG = []
+            MAVWL_channels_sEMG = []
             WL_channels_sEMG = []
-            MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
-            MAV_channels_sEMG = np.array(MAV_channels_sEMG);
-            MAV_channels_sEMG = np.transpose(MAV_channels_sEMG);
+            MAVWL_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
+            MAVWL_channels_sEMG = np.array(MAVWL_channels_sEMG);
+            MAVWL_channels_sEMG = np.transpose(MAVWL_channels_sEMG);
+            print("size MAVWL", MAVWL_channels_sEMG.shape)
             
             WL_channels_sEMG = WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
             WL_channels_sEMG = np.array(WL_channels_sEMG);
             WL_channels_sEMG = np.transpose(WL_channels_sEMG);
-            print("size WL", WL_channels_sEMG.shape)
+            
 
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis

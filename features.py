@@ -35,10 +35,9 @@ def fWL(y):
     wl = []
     len_window = 1024;
     for i in range(0,n,512):
-        if n in range(i,(i+len_window)):
+        if n in range(i+1,(i+1+len_window)):
             break
-        z = y[i:(i+len_window)];
-        wl.append(np.sum(abs(z[i+1] - z[i])))   
+        wl.append(np.sum(abs(y[i+1] - y[i])))   
     return wl
     
     

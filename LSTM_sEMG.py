@@ -50,7 +50,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = MAV_channels_sEMG; 
+    in_seq = MAVWL_channels_sEMG; 
 
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
@@ -111,8 +111,8 @@ def main():
      
     # design network
     model = Sequential()
-    model.add(LSTM(15,activation='relu', return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
-    model.add(Dropout(.2))
+    model.add(LSTM(15,activation='relu', return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
@@ -125,10 +125,10 @@ def main():
     
     
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', patience = 1000)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 500)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks=[es])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=4000, batch_size = len(train_target), verbose=1, callbacks=[es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
