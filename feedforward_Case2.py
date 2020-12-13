@@ -27,7 +27,7 @@ from tensorflow.keras import regularizers
 from matplotlib.font_manager import FontProperties
 
 from thesisproject_Fede_Case2 import *
-from features import fMAV
+from features import *
 from differentiation import *
 from groundtruth_Case2 import *
 

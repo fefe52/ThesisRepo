@@ -18,10 +18,10 @@ from tensorflow.keras import regularizers
 from keras.layers import Dropout
 from keras.layers import LSTM
 from keras.callbacks import EarlyStopping
-from thesisproject_Fede_Case2 import *
-from features import fMAV
+from thesisproject_Fede import *
+from features import *
 from differentiation import *
-from groundtruth_Case2 import *
+from groundtruth import *
 from sklearn.model_selection import KFold, StratifiedKFold
 
 
@@ -51,7 +51,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = all_rec_HDEMG; 
+    in_seq = MAVWLRMS_channels;
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
 
 
@@ -115,13 +115,11 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    #model.add(LSTM(64, activation='relu', return_sequences=True))
-    model.add(LSTM(64, return_sequences = True, activation='relu'))
-    model.add(LSTM(64, activation = 'relu'))
-    #model.add(Dropout(0.2))
-    
+    model.add(LSTM(100,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(10, return_sequences, activation='relu'))
     model.add(Dense(n_steps_out))
+    
+    
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
 
@@ -136,7 +134,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -173,26 +171,26 @@ def main():
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Abs Error')
-        plt.title('MAE using LSTM on HD-sEMG data - study case 2')
+        plt.title('MAE using LSTM on HD-sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_MAE_studycase2.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/LSTM/HDEMG_LSTM_MAE_studycase1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Mean Square Error ')
-        plt.title('MSE using LSTM on HD-sEMG data - study case 2')
+        plt.title('MSE using LSTM on HD-sEMG data - study case 1')
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_MSE_studycase2.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/LSTM/HDEMG_LSTM_MSE_studycase1.png')
         plt.show()
 
         plt.figure()
         plt.xlabel('Epoch')
         plt.ylabel('Prediction values')
-        plt.title('LSTM predictions on HD-sEMG training - study case 2')
+        plt.title('LSTM predictions on HD-sEMG training - study case 1')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
         plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_pred_training_studycase2.png')
@@ -209,9 +207,9 @@ def main():
         plt.figure()
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
-        plt.title('LSTM predictions on HD-sEMG test - study case 2')
+        plt.title('LSTM predictions on HD-sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase2.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase1.png')
         plt.show()
     plot_history(model_history)
     

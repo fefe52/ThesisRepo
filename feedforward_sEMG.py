@@ -27,7 +27,7 @@ from tensorflow.keras import regularizers
 import seaborn as sns
 
 from thesisproject_Fede import *
-from features import fMAV
+from features import *
 from differentiation import *
 from groundtruth import *
 

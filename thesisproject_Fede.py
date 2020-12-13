@@ -95,10 +95,18 @@ for root, dirs, files in os.walk(finalpath):
             
             " Gastrocnemium lateralis and Peroneus Longus "
             MAVgl_channels = []
+            WLgl_channels = []
+            RMSgl_channels = []
             MAVp_channels = []
+            WLp_channels = []
+            RMSp_channels = []
             for c in range(gl_diffchannels):
                  MAVgl_channels.append(fMAV(diff_gl[c,:]))
+                 WLgl_channels.append(fWL(diff_gl[c,:]))
+                 RMSgl_channels.append(fRMS(diff_gl[c,:]))
                  MAVp_channels.append(fMAV(diff_p[c,:]))
+                 WLp_channels.append(fWL(diff_p[c,:]))
+                 RMSp_channels.append(fRMS(diff_p[c,:]))
             
             "for regular sEMG"
             MAVgl_channels_sEMG = []
@@ -115,14 +123,28 @@ for root, dirs, files in os.walk(finalpath):
             WLp_channels_sEMG.append(fWL(diff_p_sEMG[:]))
             RMSp_channels_sEMG.append(fRMS(diff_p_sEMG[:]))
             
+            
+            
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
             MAVgm_channels = []
+            WLgm_channels = []
+            RMSgm_channels = []
             MAVta_channels =[]
+            WLta_channels =[]
+            RMSta_channels =[]
             MAVsol_channels = []
+            WLsol_channels = []
+            RMSsol_channels = []
             for b in range(gm_diffchannels):
                  MAVgm_channels.append(fMAV(diff_gm[b,:]))
+                 WLgm_channels.append(fWL(diff_gm[b,:]))
+                 RMSgm_channels.append(fRMS(diff_gm[b,:]))
                  MAVta_channels.append(fMAV(diff_ta[b,:]))
+                 WLta_channels.append(fWL(diff_ta[b,:]))
+                 RMSta_channels.append(fRMS(diff_ta[b,:]))
                  MAVsol_channels.append(fMAV(diff_sol[b,:]))
+                 WLsol_channels.append(fWL(diff_sol[b,:]))
+                 RMSsol_channels.append(fRMS(diff_sol[b,:]))
              
 
             "for regular sEMG"     
@@ -147,26 +169,19 @@ for root, dirs, files in os.walk(finalpath):
             
           
             "All muscles features "
-            MAV_channels = []
-            MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            #print("MAV_channels", len(MAV_channels))
-            MAV_channels = np.array(MAV_channels);
-            MAV_channels = np.transpose(MAV_channels);
-            print("MAV_channels",MAV_channels.shape)
+            MAVWLRMS_channels = []
+            MAVWLRMS_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels + WLgl_channels + WLp_channels + WLgm_channels + WLta_channels + WLsol_channels + RMSgl_channels + RMSp_channels + RMSgm_channels + RMSta_channels + RMSsol_channels;
+            MAVWLRMS_channels = np.array(MAVWLRMS_channels);
+            MAVWLRMS_channels = np.transpose(MAVWLRMS_channels);
+            print("MAVWLRMS_channels",MAVWLRMS_channels.shape)
             
             
             MAVWLRMS_channels_sEMG = []
-            #WL_channels_sEMG = []
             MAVWLRMS_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG + RMSgl_channels_sEMG + RMSgm_channels_sEMG + RMSp_channels_sEMG + RMSsol_channels_sEMG  + RMSta_channels_sEMG;
             MAVWLRMS_channels_sEMG = np.array(MAVWLRMS_channels_sEMG);
             MAVWLRMS_channels_sEMG = np.transpose(MAVWLRMS_channels_sEMG);
             print("size MAVWLRMS", MAVWLRMS_channels_sEMG.shape)
-            print("WL_gl", WLgl_channels_sEMG)
-            print("RMS_gl", RMSgl_channels_sEMG)
-            #WL_channels_sEMG = WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG;
-            #WL_channels_sEMG = np.array(WL_channels_sEMG);
-            #WL_channels_sEMG = np.transpose(WL_channels_sEMG);
-            
+
 
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis

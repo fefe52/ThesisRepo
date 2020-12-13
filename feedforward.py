@@ -26,7 +26,7 @@ from tensorflow.keras import regularizers
 import seaborn as sns
 
 from thesisproject_Fede import *
-from features import fMAV
+from features import *
 from differentiation import *
 from groundtruth import *
 
@@ -55,7 +55,7 @@ def main():
     
 
     # convert to [rows, columns] structure
-    in_seq = MAV_channels; 
+    in_seq = MAVWLRMS_channels;
     #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
     #X_scaler = preprocessing.MinMaxScaler()
     #y_scaler = preprocessing.MinMaxScaler()
@@ -90,10 +90,10 @@ def main():
     #test_size = int(len(X)*0.100)
     target_size = int(len(Y)*0.60)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
-    val_size = int(len(test_features)*0.60)
-    test_features, val_features = test_features[0:val_size],test_features[val_size:len(test_features)] 
+    val_size = int(len(test_features)*0.40)
+    val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
-    test_target, val_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
+    val_target, test_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
     figure()
     plt.plot(Y)
     plt.savefig(CWD + '/figures/all target.png')
@@ -180,7 +180,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/HDEMG_MAE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_MAE_studycase1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
@@ -189,7 +189,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/HDEMG_MSE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_MSE_studycase1.png')
         plt.show()
 
         plt.figure()
@@ -198,7 +198,7 @@ def main():
         plt.title('MLP predictions on HD-sEMG training - study case 1') 
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/HDEMG_pred_training_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_pred_training_studycase1.png')
         plt.show()
 
         #plot
@@ -214,7 +214,7 @@ def main():
         plt.plot(test_targets_pred,'r')
         plt.title('MLP predictions on HD-sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/HDEMG_pred_test_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_pred_test_studycase1.png')
         plt.show()
     plot_history(model_history)
     

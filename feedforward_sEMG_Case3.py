@@ -26,7 +26,7 @@ from keras.callbacks import ModelCheckpoint
 from tensorflow.keras import regularizers
 from matplotlib.font_manager import FontProperties
 from thesisproject_Fede_Case3 import *
-from features import fMAV
+from features import *
 from differentiation import *
 from groundtruth_Case3 import *
 
