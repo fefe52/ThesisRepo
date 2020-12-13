@@ -122,6 +122,7 @@ def main():
     model.add(Dropout(.2))
     model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
     model.add(Dense(50, activation = 'relu'))
+
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     #kernel_regularizer=regularizers.l2(0.001)
@@ -135,10 +136,10 @@ def main():
     model.summary()
 
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -180,7 +181,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_absolute_error'],label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_absolute_error'],label = 'Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_MAE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/MLP/HDEMG_MAE_studycase1.png')
 
         plt.figure()
         plt.xlabel('Epoch')
@@ -189,7 +190,7 @@ def main():
         plt.plot(hist['epoch'], hist['mean_squared_error'], label='Train Error')
         plt.plot(hist['epoch'], hist['val_mean_squared_error'], label='Val Error')
         plt.legend()
-        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_MSE_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/MLP/HDEMG_MSE_studycase1.png')
         plt.show()
 
         plt.figure()
@@ -198,7 +199,7 @@ def main():
         plt.title('MLP predictions on HD-sEMG training - study case 1') 
         plt.plot(train_target)
         plt.plot(train_targets_pred)
-        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_pred_training_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/MLP/HDEMG_pred_training_studycase1.png')
         plt.show()
 
         #plot
@@ -214,7 +215,7 @@ def main():
         plt.plot(test_targets_pred,'r')
         plt.title('MLP predictions on HD-sEMG test - study case 1')
         plt.legend(['actual target','predictated values'])
-        plt.savefig(CWD + '/figures/Case1/MLP/HDEMG_pred_test_studycase1.png')
+        plt.savefig(CWD + '/figures/Case1/HDEMG/MLP/HDEMG_pred_test_studycase1.png')
         plt.show()
     plot_history(model_history)
     
