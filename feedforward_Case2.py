@@ -25,6 +25,8 @@ from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
 from tensorflow.keras import regularizers
 from matplotlib.font_manager import FontProperties
+from sklearn.preprocessing import MinMaxScaler
+
 
 from thesisproject_Fede_Case2 import *
 from features import *
@@ -93,7 +95,12 @@ def main():
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
-    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
+    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)] 
+     ## transform target
+    target_scaler = MinMaxScaler()
+    target_scaler.fit(train_target)
+    train_target = target_scaler.transform(train_target);
+    test_target = target_scaler.transform(test_target);
     val_target, test_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
     
     figure()
@@ -139,18 +146,30 @@ def main():
     model.summary()
 
     # Early stopping
-    es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    class MyThresholdCallback(keras.callbacks.Callback):
+        def __init__(self, threshold):
+            super(MyThresholdCallback, self).__init__()
+            self.threshold = threshold
 
-    # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [es])
+        def on_epoch_end(self, epoch, logs=None):
+            val_loss = logs["val_loss"]
+            if val_loss < self.threshold:
+                self.model.stop_training = True
+
+    my_callback = MyThresholdCallback(threshold=0.06)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
     print("hist_tail",hist.tail())
 
     ### Predictions
-    train_targets_pred = model.predict(train_features)
-    test_targets_pred = model.predict(test_features)
+    train_targets_pred = model.predict(train_features);
+    train_targets_pred = target_scaler.inverse_transform(train_targets_pred);
+    test_targets_pred = model.predict(test_features);
+    test_targets_pred = target_scaler.inverse_transform(test_targets_pred);
+    train_target = target_scaler.inverse_transform(train_target);
+    test_target = target_scaler.inverse_transform(test_target);
     print("len of train pred", train_targets_pred.shape)
     print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 

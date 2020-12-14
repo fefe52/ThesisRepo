@@ -24,7 +24,7 @@ from groundtruth_Case2 import *
 from sklearn.model_selection import KFold, StratifiedKFold
 from matplotlib.font_manager import FontProperties
 from sklearn.preprocessing import MinMaxScaler
-
+from numpy import hstack
 
 def main():
     # split a multivariate sequence into samples
@@ -131,17 +131,26 @@ def main():
     optim_adam=keras.optimizers.Adam(lr=0.01)
 
     # Configure the model and start training
-    
+     
     #the optimizer shows how we update the weights
     model.compile(loss='mean_squared_error', optimizer=optim_adam, metrics=['mean_absolute_error', 'mean_squared_error'])
     model.summary()
     
     
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 300)   
+    class MyThresholdCallback(keras.callbacks.Callback):
+        def __init__(self, threshold):
+            super(MyThresholdCallback, self).__init__()
+            self.threshold = threshold
 
+        def on_epoch_end(self, epoch, logs=None):
+            val_mean_squared_error = logs["val_mean_squared_error"]
+            if val_mean_squared_error < self.threshold:
+                self.model.stop_training = True
+
+    my_callback = MyThresholdCallback(threshold=0.06)
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -152,6 +161,8 @@ def main():
     train_targets_pred = target_scaler.inverse_transform(train_targets_pred);
     test_targets_pred = model.predict(test_features);
     test_targets_pred = target_scaler.inverse_transform(test_targets_pred);
+    train_target = target_scaler.inverse_transform(train_target);
+    test_target = target_scaler.inverse_transform(test_target);
     print("len of train pred", train_targets_pred.shape)
     print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 
