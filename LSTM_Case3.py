@@ -23,7 +23,7 @@ from features import fMAV
 from differentiation import *
 from groundtruth_Case3 import *
 from sklearn.model_selection import KFold, StratifiedKFold
-
+from matplotlib.font_manager import FontProperties
 
 
 
@@ -134,10 +134,10 @@ def main():
     
     
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 300)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks = [es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -216,7 +216,7 @@ def main():
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
         plt.title('LSTM predictions on HD-sEMG test - study case 3')
-        plt.legend(['actual target','predictated values'], prep=fontP)
+        plt.legend(['actual target','predictated values'], prop=fontP)
         plt.savefig(CWD + '/figures/Case3/HDEMG/LSTM/HDEMG_LSTM_pred_test_studycase3.png')
         plt.show()
     plot_history(model_history)

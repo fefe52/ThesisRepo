@@ -125,7 +125,7 @@ def main():
     model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
     model.add(Dense(50, activation = 'relu'))
     model.add(Dense(50, activation = 'relu'))
-    #model.add(Dense(10, activation = 'relu'))
+    
     #model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
     #kernel_regularizer=regularizers.l2(0.001)
@@ -139,10 +139,10 @@ def main():
     model.summary()
 
     # Early stopping
-    #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
+    es = EarlyStopping(monitor='val_loss', mode='min', patience = 300)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks=[es])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
