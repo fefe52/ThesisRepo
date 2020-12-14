@@ -149,9 +149,9 @@ def main():
             if val_mean_squared_error < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.06)
+    #my_callback = MyThresholdCallback(threshold=0.05)
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=500, batch_size = len(train_target), verbose=1)
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
