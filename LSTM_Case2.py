@@ -6,7 +6,6 @@ from matplotlib import pyplot
 from pandas import read_csv
 from pandas import DataFrame
 from pandas import concat
-from numpy import hstack
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 import keras
