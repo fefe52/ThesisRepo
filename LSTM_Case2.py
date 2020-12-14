@@ -2,6 +2,7 @@
 "LSTM Case 2"
 from math import sqrt
 from numpy import concatenate
+from numpy import hstack
 from matplotlib import pyplot
 from pandas import read_csv
 from pandas import DataFrame
