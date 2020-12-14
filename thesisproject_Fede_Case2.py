@@ -31,14 +31,6 @@ for root, dirs, files in os.walk(finalpath):
     if (root == finalpath):
         continue
 
-    #if (root.endswith('05')):
-     #   continue
-    #if (root.endswith('03')):
-     #   continue
-
-    #if (root.endswith('06')):
-     #       print("catched it")
-      #      continue
 
     os.chdir(root);
     for name in files:
@@ -77,19 +69,13 @@ for root, dirs, files in os.walk(finalpath):
             diff_gm = Differential(df_gm,gm_channels);
             diff_ta = Differential(df_ta,ta_channels);
             diff_sol = Differential_sol(df_sol,sol_channels);
-            #print("diff_gl" , diff_gl[0,:]) #corrispectively signal from all array
-            #print("diff_p", diff_p)
-            #print("diff_gm", diff_gm)
-            #print("diff_ta", diff_ta)
-            #print("diff_sol", diff_sol[55,:]) #corrispectively signal from all array
+
             diff_gl_sEMG = Differential_sEMG(df_gl);
             diff_p_sEMG = Differential_sEMG(df_p);
             diff_gm_sEMG = Differential_sEMG(df_gm);
             diff_ta_sEMG = Differential_sEMG(df_ta);
             diff_sol_sEMG = Differential_sol_sEMG(df_sol);
 
-            #print("diff_gl_sEMG",diff_gl_sEMG)
-            #print("diff_sol_sEMG",diff_sol_sEMG)
 
             
                   
@@ -111,60 +97,102 @@ for root, dirs, files in os.walk(finalpath):
             "Gastrocnemius Lateralis and Peroneus Longus with 32 channels,"
             "and Gastrocnemius Medialis, Tibialis Anterior and Soleus with 64 channels"
             
-            " Gastrocnemium lateralis and Peroneus Longus "
             MAVgl_channels = []
+            WLgl_channels = []
+            RMSgl_channels = []
             MAVp_channels = []
+            WLp_channels = []
+            RMSp_channels = []
             for c in range(gl_diffchannels):
                  MAVgl_channels.append(fMAV(diff_gl[c,:]))
+                 WLgl_channels.append(fWL(diff_gl[c,:]))
+                 RMSgl_channels.append(fRMS(diff_gl[c,:]))
                  MAVp_channels.append(fMAV(diff_p[c,:]))
+                 WLp_channels.append(fWL(diff_p[c,:]))
+                 RMSp_channels.append(fRMS(diff_p[c,:]))
             
             "for regular sEMG"
             MAVgl_channels_sEMG = []
-            MAVp_channels_sEMG = []
+            WLgl_channels_sEMG = []
+            RMSgl_channels_sEMG = []
+            MAVp_channels_sEMG = [] 
+            WLp_channels_sEMG = []
+            RMSp_channels_sEMG =[]
+            
             MAVgl_channels_sEMG.append(fMAV(diff_gl_sEMG[:]))
+            WLgl_channels_sEMG.append(fWL(diff_gl_sEMG[:]))
+            RMSgl_channels_sEMG.append(fRMS(diff_gl_sEMG[:]))
             MAVp_channels_sEMG.append(fMAV(diff_p_sEMG[:]))
+            WLp_channels_sEMG.append(fWL(diff_p_sEMG[:]))
+            RMSp_channels_sEMG.append(fRMS(diff_p_sEMG[:]))
+            
+            
             
             " Gastrocnemium medialis, Tibialis Anterior and Soleus "
             MAVgm_channels = []
+            WLgm_channels = []
+            RMSgm_channels = []
             MAVta_channels =[]
+            WLta_channels =[]
+            RMSta_channels =[]
             MAVsol_channels = []
+            WLsol_channels = []
+            RMSsol_channels = []
             for b in range(gm_diffchannels):
                  MAVgm_channels.append(fMAV(diff_gm[b,:]))
+                 WLgm_channels.append(fWL(diff_gm[b,:]))
+                 RMSgm_channels.append(fRMS(diff_gm[b,:]))
                  MAVta_channels.append(fMAV(diff_ta[b,:]))
+                 WLta_channels.append(fWL(diff_ta[b,:]))
+                 RMSta_channels.append(fRMS(diff_ta[b,:]))
                  MAVsol_channels.append(fMAV(diff_sol[b,:]))
+                 WLsol_channels.append(fWL(diff_sol[b,:]))
+                 RMSsol_channels.append(fRMS(diff_sol[b,:]))
              
 
             "for regular sEMG"     
             MAVgm_channels_sEMG = []
-            MAVta_channels_sEMG =[]
+            WLgm_channels_sEMG = []
+            RMSgm_channels_sEMG = []
+            MAVta_channels_sEMG = []
+            WLta_channels_sEMG = []
+            RMSta_channels_sEMG = []
             MAVsol_channels_sEMG = []
+            WLsol_channels_sEMG = []
+            RMSsol_channels_sEMG = []
             MAVgm_channels_sEMG.append(fMAV(diff_gm_sEMG[:]))
+            WLgm_channels_sEMG.append(fWL(diff_gm_sEMG[:]))
+            RMSgm_channels_sEMG.append(fRMS(diff_gm_sEMG[:]))
             MAVta_channels_sEMG.append(fMAV(diff_ta_sEMG[:]))
+            WLta_channels_sEMG.append(fWL(diff_ta_sEMG[:]))
+            RMSta_channels_sEMG.append(fRMS(diff_ta_sEMG[:]))
             MAVsol_channels_sEMG.append(fMAV(diff_sol_sEMG[:]))
+            WLsol_channels_sEMG.append(fWL(diff_sol_sEMG[:]))
+            RMSsol_channels_sEMG.append(fRMS(diff_sol_sEMG[:]))
             
           
             "All muscles features "
-            MAV_channels = []
-            MAV_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels;
-            rec_HDEMG = np.array(MAV_channels)
+            MAVWLRMS_channels = []
+            MAVWLRMS_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels + WLgl_channels + WLp_channels + WLgm_channels + WLta_channels + WLsol_channels + RMSgl_channels + RMSp_channels + RMSgm_channels + RMSta_channels + RMSsol_channels;
+            rec_HDEMG = np.array(MAVWLRMS_channels)
             print("test size", rec_HDEMG.shape)
             if (rec_HDEMG.shape[1] > 190):
                 rec_HDEMG = np.delete(rec_HDEMG,slice(189,rec_HDEMG.shape[1]-1,1),1)
-            
             rec_HDEMG = rec_HDEMG.transpose()
             temp = rec_HDEMG.tolist()
             all_rec_HDEMG = all_rec_HDEMG + temp
             
-            
-            #MAV_channels_sEMG = []
-            #MAV_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG;
-            #rec_sEMG = np.array(MAV_channels_sEMG)
+            MAVWLRMS_channels_sEMG = []
+            MAVWLRMS_channels_sEMG = MAVgl_channels_sEMG + MAVp_channels_sEMG + MAVgm_channels_sEMG + MAVta_channels_sEMG + MAVsol_channels_sEMG + WLgl_channels_sEMG + WLp_channels_sEMG + WLgm_channels_sEMG + WLta_channels_sEMG + WLsol_channels_sEMG + RMSgl_channels_sEMG + RMSgm_channels_sEMG + RMSp_channels_sEMG + RMSsol_channels_sEMG  + RMSta_channels_sEMG;
+            MAVWLRMS_channels_sEMG = np.array(MAVWLRMS_channels_sEMG);
+            rec_sEMG = np.array(MAVWLRMS_channels_sEMG)
 
-            #if (rec_sEMG.shape[1] > 476):
-             #   rec_sEMG = np.delete(rec_sEMG,slice(475,rec_sEMG.shape[1]-1,1),1)
-            #rec_sEMG = rec_sEMG.transpose()
-            #temp2 = rec_sEMG.tolist()
-            #all_rec_sEMG = all_rec_sEMG + temp2
+            if (rec_sEMG.shape[1] > 190):
+                rec_sEMG = np.delete(rec_sEMG,slice(189,rec_sEMG.shape[1]-1,1),1)
+            rec_sEMG = rec_sEMG.transpose()
+            temp2 = rec_sEMG.tolist()
+            all_rec_sEMG = all_rec_sEMG + temp2
+            
             
 
             "------ plot MAV profile ------" #only gastrocnemio lateralis
