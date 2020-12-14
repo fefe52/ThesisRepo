@@ -26,7 +26,10 @@ from keras.callbacks import ModelCheckpoint
 from tensorflow.keras import regularizers
 from matplotlib.font_manager import FontProperties
 from sklearn.preprocessing import MinMaxScaler
+<<<<<<< HEAD
 
+=======
+>>>>>>> d952aa84863330ad71d82c338c90ad816f274fe3
 
 from thesisproject_Fede_Case2 import *
 from features import *
@@ -59,11 +62,7 @@ def main():
 
     # convert to [rows, columns] structure
     in_seq = all_rec_HDEMG;
-    #### data scaling from 0 to 1, since in_seq and out_seq have very different scales
-    #X_scaler = preprocessing.MinMaxScaler()
-    #y_scaler = preprocessing.MinMaxScaler()
-    #in_seq = (X_scaler.fit_transform(in_pre_seq.reshape(-1,1)))
-    #out_seq = (y_scaler.fit_transform(out_pre_seq.reshape(-1,1)))
+
 
     # horizontally stack columns
     dataset = hstack((in_seq, out_pre_seq))
@@ -86,8 +85,7 @@ def main():
 
 
     # Split of the data
-    #train_features, test_features, train_target, test_target = train_test_split(X, Y, test_size = 0.25, random_state = 42, shuffle = False)
-    
+   
     #using a split of 60-(40-60)
     features_size = int(len(X)*0.75)
     #test_size = int(len(X)*0.100)
@@ -95,8 +93,13 @@ def main():
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
+<<<<<<< HEAD
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)] 
      ## transform target
+=======
+    train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
+     ## transform target 
+>>>>>>> d952aa84863330ad71d82c338c90ad816f274fe3
     target_scaler = MinMaxScaler()
     target_scaler.fit(train_target)
     train_target = target_scaler.transform(train_target);
@@ -138,6 +141,15 @@ def main():
     #kernel_regularizer=regularizers.l2(0.001)
     # select the optimizer with learning rate 
     optim_adam=keras.optimizers.Adam(lr=0.01)
+    class MyThresholdCallback(keras.callbacks.Callback):
+        def __init__(self, threshold):
+            super(MyThresholdCallback, self).__init__()
+            self.threshold = threshold
+
+        def on_epoch_end(self, epoch, logs=None):
+            val_mean_squared_error = logs["val_mean_squared_error"]
+            if val_mean_squared_error < self.threshold:
+                self.model.stop_training = True
 
     # Configure the model and start training
     #we use MSE because it is a regression problem
@@ -146,6 +158,7 @@ def main():
     model.summary()
 
     # Early stopping
+<<<<<<< HEAD
     class MyThresholdCallback(keras.callbacks.Callback):
         def __init__(self, threshold):
             super(MyThresholdCallback, self).__init__()
@@ -158,6 +171,12 @@ def main():
 
     my_callback = MyThresholdCallback(threshold=0.06)
     model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
+=======
+    my_callback = MyThresholdCallback(threshold=0.12)
+
+    # validation_split=0.2 TO USE
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
+>>>>>>> d952aa84863330ad71d82c338c90ad816f274fe3
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -168,8 +187,11 @@ def main():
     train_targets_pred = target_scaler.inverse_transform(train_targets_pred);
     test_targets_pred = model.predict(test_features);
     test_targets_pred = target_scaler.inverse_transform(test_targets_pred);
+<<<<<<< HEAD
     train_target = target_scaler.inverse_transform(train_target);
     test_target = target_scaler.inverse_transform(test_target);
+=======
+>>>>>>> d952aa84863330ad71d82c338c90ad816f274fe3
     print("len of train pred", train_targets_pred.shape)
     print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 
