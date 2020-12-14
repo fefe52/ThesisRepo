@@ -24,7 +24,7 @@ from differentiation import *
 from groundtruth_Case2 import *
 from sklearn.model_selection import KFold, StratifiedKFold
 from matplotlib.font_manager import FontProperties
-
+from sklearn.preprocessing import MinMaxScaler
 
 
 def main():
@@ -85,6 +85,11 @@ def main():
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
     train_target, test_target = Y[0:target_size], Y[target_size:len(Y)]
+    ## transform target 
+    target_scaler = MinMaxScaler()
+    target_scaler.fit(train_target)
+    train_target = target_scaler.transform(train_target);
+    test_target = target_scaler.transform(test_target);
     val_target, test_target = test_target[0:val_size], test_target[val_size:len(test_target)] 
 
     #reshape input to be 3D[samples,timesteps,features]
@@ -144,8 +149,10 @@ def main():
     print("hist_tail",hist.tail())
 
     ### Predictions
-    train_targets_pred = model.predict(train_features)
-    test_targets_pred = model.predict(test_features)
+    train_targets_pred = model.predict(train_features);
+    train_targets_pred = target_scaler.inverse_transform(train_targets_pred);
+    test_targets_pred = model.predict(test_features);
+    test_targets_pred = target_scaler.inverse_transform(test_targets_pred);
     print("len of train pred", train_targets_pred.shape)
     print("len of test pred", test_targets_pred.shape)
     ### R2 score of training and testing data 
