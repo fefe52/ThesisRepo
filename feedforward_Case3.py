@@ -146,11 +146,11 @@ def main():
             self.threshold = threshold
 
         def on_epoch_end(self, epoch, logs=None):
-            val_mean_squared_error = logs["val_mean_squared_error"]
-            if val_mean_squared_error < self.threshold:
+            val_loss = logs["val_loss"]
+            if val_loss < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.12)
+    my_callback = MyThresholdCallback(threshold=0.30)
     
     model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks=[my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
