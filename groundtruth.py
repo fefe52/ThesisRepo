@@ -17,7 +17,7 @@ def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
     #Val = 1;
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
-    F = pd.DataFrame((gt.iloc[:] - 2.257) * Val)
+    F = pd.DataFrame((gt.iloc[:] - 2.450) * Val)  ## check the offset for each of them
     return F
 
 "----- Formula Torque -----"
