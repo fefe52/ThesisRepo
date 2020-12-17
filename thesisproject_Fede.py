@@ -16,7 +16,7 @@ from groundtruth import *
 
 "------------IMPORT AND MAIN PART-----------"
 #CWD = os.getcwd()
-subfolders = r"data/Tests/test05"
+subfolders = r"data/Tests/test06"
 finalpath = os.path.join(CWD, subfolders)
 os.chdir(finalpath);
 
@@ -32,11 +32,14 @@ for root, dirs, files in os.walk(finalpath):
                 continue
             if("AP10" in name):
                 continue
+            if ("AN15" in name):
+                continue
             df = pd.read_csv(name, sep=';' , engine ='python');
             df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
             n_channels = len(df.columns);
             t = np.arange(len(df.index))/Fsample
+            
             first_row = df.iloc[0,:];  #32 elements
             first_column = df.iloc[:,0];  #250337 elements
             

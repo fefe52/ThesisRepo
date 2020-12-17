@@ -49,8 +49,9 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
     if (root == finalpath_groundtruth):
         continue 
     
-    if (root.endswith('10')):
-        offset = 2.335; 
+    
+    if (root.endswith('02')):
+        offset = 2.328;
     if (root.endswith('05')):
         offset = 2.257;
         

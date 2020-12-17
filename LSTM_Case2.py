@@ -120,16 +120,17 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(32,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
     #model.add(Dropout(0.2))
-    model.add(LSTM(64, activation='relu', return_sequences=True))
-    model.add(LSTM(64, return_sequences = True, activation='relu'))
-    model.add(LSTM(32, activation = 'relu'))
+    #model.add(LSTM(64, activation='relu', return_sequences=True))
+    #model.add(LSTM(64, return_sequences = True, activation='relu'))
+    #model.add(LSTM(10, activation = 'relu'))
     #model.add(Dropout(0.2))
     
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.01)
+    optim_adam=keras.optimizers.Adam(lr=0.1)
+    
 
     # Configure the model and start training
      
@@ -145,8 +146,8 @@ def main():
             self.threshold = threshold
 
         def on_epoch_end(self, epoch, logs=None):
-            val_mean_squared_error = logs["val_mean_squared_error"]
-            if val_mean_squared_error < self.threshold:
+            val_mean_absolute_error = logs["val_mean_absolute_error"]
+            if val_mean_absolute_error < self.threshold:
                 self.model.stop_training = True
 
     #my_callback = MyThresholdCallback(threshold=0.05)

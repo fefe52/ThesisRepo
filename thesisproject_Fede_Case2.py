@@ -32,6 +32,7 @@ for root, dirs, files in os.walk(finalpath):
         continue
 
 
+
     os.chdir(root);
     for name in files:
         if name.endswith((".csv")):

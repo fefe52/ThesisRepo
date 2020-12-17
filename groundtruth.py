@@ -42,7 +42,7 @@ TRQ_PF = 0;
 TRQ_DF= 0;
 
 CWD = os.getcwd()
-subfolders = r"data/F_tests/F_test05"
+subfolders = r"data/F_tests/F_test06"
 finalpath_groundtruth = os.path.join(CWD, subfolders)
 os.chdir(finalpath_groundtruth);
 
@@ -52,6 +52,8 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
             if ("AN30" in name):
                 continue
             if("AP10" in name):
+                continue
+            if("AN15" in name):
                 continue
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
