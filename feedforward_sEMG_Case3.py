@@ -117,7 +117,7 @@ def main():
     model.add(Dense(15,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
     #model.add(Dropout(.2))
     #model.add(Dense(100,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
-    model.add(Dense(5, activation = 'relu'))
+    model.add(Dense(10, activation = 'relu'))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(5, activation = 'relu'))
     model.add(Dense(n_steps_out))
@@ -139,11 +139,11 @@ def main():
             self.threshold = threshold
 
         def on_epoch_end(self, epoch, logs=None):
-            val_loss = logs["val_loss"]
-            if val_loss < self.threshold:
+            val_mean_squared_error = logs["val_mean_squared_error"]
+            if val_mean_squared_error < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.10)
+    my_callback = MyThresholdCallback(threshold=0.40)
     
 
     # validation_split=0.2 TO USE
@@ -155,7 +155,6 @@ def main():
 
     ### Predictions
     train_targets_pred = model.predict(train_features)
-    print("train_targets_pred",train_targets_pred)
     test_targets_pred = model.predict(test_features)
     print("len of train pred", train_targets_pred.shape)
     print("len of test pred", test_targets_pred.shape)

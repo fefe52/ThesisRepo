@@ -49,8 +49,7 @@ os.chdir(finalpath_groundtruth);
 for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
-            if ("AN30" in name):
-                continue
+            
             if("AP10" in name):
                 continue
             if("AN15" in name):
