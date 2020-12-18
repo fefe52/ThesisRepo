@@ -113,6 +113,19 @@ def main():
     #train_features = train_features.transpose()
     #print("train_features characteristics",train_features)
     
+    class MyThresholdCallback(keras.callbacks.Callback):
+        def __init__(self, threshold):
+            super(MyThresholdCallback, self).__init__()
+            self.threshold = threshold
+
+        def on_epoch_end(self, epoch, logs=None):
+            val_loss = logs["val_loss"]
+            if val_loss < self.threshold:
+                self.model.stop_training = True
+
+    my_callback = MyThresholdCallback(threshold=0.10)
+    
+    
     # design network
     model = Sequential()
     model.add(LSTM(15,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
@@ -134,7 +147,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=3000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
