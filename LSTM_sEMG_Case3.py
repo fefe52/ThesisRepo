@@ -119,11 +119,11 @@ def main():
             self.threshold = threshold
 
         def on_epoch_end(self, epoch, logs=None):
-            val_loss = logs["val_loss"]
-            if val_loss < self.threshold:
+            val_mean_squared_error = logs["val_mean_squared_error"]
+            if val_mean_squared_error < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.40)
+    my_callback = MyThresholdCallback(threshold=0.50)
     
     
     # design network
@@ -147,7 +147,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=4000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=6000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
