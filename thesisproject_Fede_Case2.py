@@ -30,9 +30,9 @@ temp2 = []
 for root, dirs, files in os.walk(finalpath):
     if (root == finalpath):
         continue
-
-
-
+    if root.endswith(("07")):
+        continue
+    
     os.chdir(root);
     for name in files:
         if name.endswith((".csv")):
@@ -40,7 +40,12 @@ for root, dirs, files in os.walk(finalpath):
                 continue
             if ("AP10" in name):
                 continue
+            if ("AP0" in name):
+                continue
+            
             print ("name file" , name)
+            
+            
             df = pd.read_csv(name, sep=';' , engine ='python');
             df += np.arange(len(df.columns))
             df = df.drop(df.columns[0], axis=1)  #delete first channel with ramp of values
