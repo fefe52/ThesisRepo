@@ -32,6 +32,8 @@ for root, dirs, files in os.walk(finalpath):
         continue
     if root.endswith(("07")):
         continue
+    if root.endswith(("10")):
+        continue
     
     os.chdir(root);
     for name in files:

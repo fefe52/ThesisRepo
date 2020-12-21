@@ -47,20 +47,22 @@ finalpath_groundtruth = os.path.join(CWD, subfolders)
 os.chdir(finalpath_groundtruth);
 for root, dirs, files in os.walk(finalpath_groundtruth):
     if (root == finalpath_groundtruth):
-        continue 
+        continue
+    
+    
     
     
     if (root.endswith('02')):
         offset = 2.328;
     if (root.endswith('05')):
         offset = 2.257;
+        
     if (root.endswith('06')):
-        offset = 2.38;  
-    if (root.endswith('10')):
-        offset = 2.335;
-    
+        offset = 2.383;  
     
     if (root.endswith('07')):
+        continue
+    if (root.endswith('10')):
         continue
         
         
@@ -72,9 +74,9 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
                 continue
             if("AP10" in name):
                 continue
-            if ("AP0" in name):
+            if("AP0" in name):
                 continue
-            print("namefiles", name)
+            print("forcefile", name)
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)
