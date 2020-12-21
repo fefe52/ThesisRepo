@@ -82,9 +82,9 @@ def main():
     # Split of the data
    
     #using a split of 60-(40-60)
-    features_size = int(len(X)*0.75)
+    features_size = int(len(X)*0.67)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.75)
+    target_size = int(len(Y)*0.67)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
@@ -149,7 +149,7 @@ def main():
             if val_loss < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.08)
+    my_callback = MyThresholdCallback(threshold=0.02)
     model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     
     ### to plot model's training cost/loss and model's validation split cost/loss

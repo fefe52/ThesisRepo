@@ -184,8 +184,8 @@ for root, dirs, files in os.walk(finalpath):
             MAVWLRMS_channels = MAVgl_channels + MAVp_channels + MAVgm_channels + MAVta_channels + MAVsol_channels + WLgl_channels + WLp_channels + WLgm_channels + WLta_channels + WLsol_channels + RMSgl_channels + RMSp_channels + RMSgm_channels + RMSta_channels + RMSsol_channels;
             rec_HDEMG = np.array(MAVWLRMS_channels)
             print("test size", rec_HDEMG.shape)
-            if (rec_HDEMG.shape[1] > 190):
-                rec_HDEMG = np.delete(rec_HDEMG,slice(189,rec_HDEMG.shape[1]-1,1),1)
+            if (rec_HDEMG.shape[1] > 476):
+                rec_HDEMG = np.delete(rec_HDEMG,slice(475,rec_HDEMG.shape[1]-1,1),1)
             rec_HDEMG = rec_HDEMG.transpose()
             temp = rec_HDEMG.tolist()
             all_rec_HDEMG = all_rec_HDEMG + temp
@@ -195,8 +195,8 @@ for root, dirs, files in os.walk(finalpath):
             MAVWLRMS_channels_sEMG = np.array(MAVWLRMS_channels_sEMG);
             rec_sEMG = np.array(MAVWLRMS_channels_sEMG)
 
-            if (rec_sEMG.shape[1] > 190):
-                rec_sEMG = np.delete(rec_sEMG,slice(189,rec_sEMG.shape[1]-1,1),1)
+            if (rec_sEMG.shape[1] > 476):
+                rec_sEMG = np.delete(rec_sEMG,slice(475,rec_sEMG.shape[1]-1,1),1)
             rec_sEMG = rec_sEMG.transpose()
             temp2 = rec_sEMG.tolist()
             all_rec_sEMG = all_rec_sEMG + temp2
