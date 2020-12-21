@@ -49,11 +49,18 @@ os.chdir(finalpath_groundtruth);
 for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
+<<<<<<< HEAD
             #if ("AN15" in name):
             #    continue
             if("AP10" in name):
                 continue
             if ("AP0" in name):
+=======
+            
+            #if("AP10" in name):
+                #continue
+            if("AN15" in name):
+>>>>>>> b41adc1a1bf030154a529ec66b151d2dda61bd29
                 continue
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))

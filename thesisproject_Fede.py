@@ -28,10 +28,9 @@ for root, dirs, files in os.walk(finalpath):
     print(finalpath)
     for name in files:
         if name.endswith((".csv")):
-            if ("AN30" in name):
-                continue
-            if("AP10" in name):
-                continue
+            
+            #if("AP10" in name):
+             #   continue
             if ("AN15" in name):
                 continue
             df = pd.read_csv(name, sep=';' , engine ='python');
