@@ -54,12 +54,14 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
         offset = 2.328;
     if (root.endswith('05')):
         offset = 2.257;
-        
     if (root.endswith('06')):
-        offset = 2.383;  
+        offset = 2.38;  
+    if (root.endswith('10')):
+        offset = 2.335;
+    
     
     if (root.endswith('07')):
-        offset = 2.367;  
+        continue
         
         
     os.chdir(root);
@@ -70,6 +72,9 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
                 continue
             if("AP10" in name):
                 continue
+            if ("AP0" in name):
+                continue
+            print("namefiles", name)
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)
