@@ -17,7 +17,7 @@ def Forza(gt,FS,Sensibility,Gain):
     Val = FS/(Sensibility * Gain * 5);
     #Val = 1;
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
-    F = pd.DataFrame((gt.iloc[:] - 2.450) * Val)  ## check the offset for each of them
+    F = pd.DataFrame((gt.iloc[:] - 2.41) * Val)  ## check the offset for each of them
     return F
 
 "----- Formula Torque -----"
@@ -50,8 +50,8 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
             
-            #if("AP10" in name):
-                #continue
+            if("AP0" in name):
+                continue
             if("AN15" in name):
                 continue
             gt = pd.read_csv(name, sep=';' , engine ='python');

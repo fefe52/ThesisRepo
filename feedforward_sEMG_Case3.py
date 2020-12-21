@@ -114,9 +114,9 @@ def main():
 
     # Create the model
     model = Sequential()
-    model.add(Dense(30,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
+    model.add(Dense(40,kernel_regularizer=regularizers.l2(0.001),  activation='relu',input_dim=n_input))
     #model.add(Dropout(.2))
-    model.add(Dense(10,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
+    model.add(Dense(20,kernel_regularizer=regularizers.l2(0.001), activation='relu'))
     #model.add(Dense(10, activation = 'relu'))
     model.add(Dense(10, activation = 'relu'))
     model.add(Dense(5, activation = 'relu'))
