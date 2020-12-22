@@ -18,7 +18,10 @@ def Forza(gt,FS,Sensibility,Gain):
     #Val = 1;
     Val = Val * 9.807;   #To have the force in Newton instead of Kg    ## take out the offset
 
-    F = pd.DataFrame((gt.iloc[:] - 2.257) * Val)*0.86  ## check the offset for each of them
+
+
+    F = pd.DataFrame((gt.iloc[:] - 2.45) * Val)  ## check the offset for each of them
+
 
     return F
 
@@ -44,7 +47,9 @@ TRQ_PF = 0;
 TRQ_DF= 0;
 
 CWD = os.getcwd()
-subfolders = r"data/F_tests/F_test05"
+
+subfolders = r"data/F_tests/F_test06"
+
 finalpath_groundtruth = os.path.join(CWD, subfolders)
 os.chdir(finalpath_groundtruth);
 
@@ -52,15 +57,15 @@ for root, dirs, files in os.walk(finalpath_groundtruth):
     for name in files:   
         if name.endswith((".csv")):
 
-            #if ("AN15" in name):
-            #    continue
             if("AP10" in name):
                 continue
-            
+
             if("AP0" in name):
                 continue
-            #if("AN15" in name):
-             #   continue
+
+            if("AN15" in name):
+                continue
+
             gt = pd.read_csv(name, sep=';' , engine ='python');
             #gt += np.arange(len(gt.columns))
             gt = gt.drop(gt.columns[0], axis=1)

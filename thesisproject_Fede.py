@@ -29,7 +29,9 @@ for root, dirs, files in os.walk(finalpath):
     for name in files:
         if name.endswith((".csv")):
             
-            if("AP0" in name):
+            #if("AP0" in name):
+             #   continue
+            if ("AP10" in name):
                 continue
             if ("AN15" in name):
                 continue
