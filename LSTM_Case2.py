@@ -78,9 +78,9 @@ def main():
 
     # Split of the data  
     #using a split of 80-(40-60)
-    features_size = int(len(X)*0.75)
+    features_size = int(len(X)*0.67)
     #test_size = int(len(X)*0.100)
-    target_size = int(len(Y)*0.75)
+    target_size = int(len(Y)*0.67)
     train_features, test_features = X[0:features_size], X[features_size:len(X)]
     val_size = int(len(test_features)*0.40)
     val_features, test_features = test_features[0:val_size],test_features[val_size:len(test_features)]
@@ -120,16 +120,15 @@ def main():
     
     # design network
     model = Sequential()
-    model.add(LSTM(32,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=False, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(64,activation='relu',kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
     #model.add(Dropout(0.2))
-    #model.add(LSTM(64, activation='relu', return_sequences=True))
-    #model.add(LSTM(64, return_sequences = True, activation='relu'))
-    #model.add(LSTM(10, activation = 'relu'))
+    model.add(LSTM(64, activation='relu', return_sequences=True))
+    model.add(LSTM(64, return_sequences = True, activation='relu'))
+    model.add(LSTM(32, activation = 'relu'))
     #model.add(Dropout(0.2))
-    
     model.add(Dense(n_steps_out))
     # select the optimizer with learning rate 
-    optim_adam=keras.optimizers.Adam(lr=0.1)
+    optim_adam=keras.optimizers.Adam(lr=0.01)
     
 
     # Configure the model and start training
@@ -146,13 +145,13 @@ def main():
             self.threshold = threshold
 
         def on_epoch_end(self, epoch, logs=None):
-            val_mean_absolute_error = logs["val_mean_absolute_error"]
-            if val_mean_absolute_error < self.threshold:
+            val_mean_squared_error = logs["val_mean_squared_error"]
+            if val_mean_squared_error < self.threshold:
                 self.model.stop_training = True
 
-    #my_callback = MyThresholdCallback(threshold=0.05)
+    my_callback = MyThresholdCallback(threshold=0.005)
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=500, batch_size = len(train_target), verbose=1)
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=1000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
@@ -215,11 +214,12 @@ def main():
         plt.show()
 
         plt.figure()
-        plt.xlabel('Epoch')
-        plt.ylabel('Prediction values')
+        plt.xlabel('Samples')
+        plt.ylabel('Torque[Nm]')
         plt.title('LSTM predictions on HD-sEMG training - study case 2')
         plt.plot(train_target)
         plt.plot(train_targets_pred)
+        plt.legend()
         plt.savefig(CWD + '/figures/Case2/HDEMG/LSTM/HDEMG_LSTM_pred_training_studycase2.png')
         plt.show()
 
@@ -232,6 +232,8 @@ def main():
         #plt.show()
         
         plt.figure()
+        plt.xlabel('Samples')
+        plt.ylabel('Torque[Nm]')
         plt.plot(test_target,'g')
         plt.plot(test_targets_pred,'r')
         plt.title('LSTM predictions on HD-sEMG test - study case 2')
