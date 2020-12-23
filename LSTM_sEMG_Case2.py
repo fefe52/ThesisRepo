@@ -127,13 +127,15 @@ def main():
             if val_mean_squared_error < self.threshold:
                 self.model.stop_training = True
 
-    my_callback = MyThresholdCallback(threshold=0.50)
+    my_callback = MyThresholdCallback(threshold=0.010)
     
     
     # design network
     model = Sequential()
-    model.add(LSTM(15,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
-    model.add(LSTM(5,activation = 'relu'))
+    model.add(LSTM(32,activation='relu', kernel_regularizer=regularizers.l2(0.001),return_sequences=True, input_shape=(n_steps_in,X.shape[2])))
+    model.add(LSTM(32,activation = 'relu',return_sequences=True))
+    model.add(LSTM(16,activation = 'relu'))
+    
      
      
     model.add(Dense(n_steps_out))
@@ -151,7 +153,7 @@ def main():
     #es = EarlyStopping(monitor='val_loss', mode='min', patience = 100)   
 
     # validation_split=0.2 TO USE
-    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=6000, batch_size = len(train_target), verbose=1, callbacks = [my_callback])
+    model_history = model.fit(train_features, train_target, validation_data=(val_features,val_target), epochs=2000, batch_size = len(train_target), verbose=1, callbacks=[my_callback])
     ### to plot model's training cost/loss and model's validation split cost/loss
     hist = pd.DataFrame(model_history.history)
     hist['epoch'] = model_history.epoch
